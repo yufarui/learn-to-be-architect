@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  ksnews-prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-admin-api
+    ports:
+      - 9090:9090
+

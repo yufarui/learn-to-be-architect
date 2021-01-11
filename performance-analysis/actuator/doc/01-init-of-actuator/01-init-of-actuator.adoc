@@ -1,0 +1,43 @@
+= spring-boot-actuator
+:doctype: article
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+
+[preface]
+== 前言
+
+学习spring-boot-actuator,更好地监控服务
+阅读时版本:spring-boot 2.4.1
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready[官方文档]
+
+https://yufarui.additor.io/page/zLDyGGTDwDZX/addit/oMxeP7fDGm[additor-学习记录]
+
+== 任务
+Prometheus + Grafana 监控 SpringBoot
+https://zhuanlan.zhihu.com/p/106036485[搭建文章]
+
+== Micrometer
+
+https://micrometer.io/docs/concepts[micrometer-相关概念]
+
+[glossary]
+Meter ::
+	收集度量结果的接口
+
+MeterRegistry::
+	Meter的注册中心.默认spring-实例:SimpleMeterRegistry
+
+
+
+

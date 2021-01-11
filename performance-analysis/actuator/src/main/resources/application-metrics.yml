@@ -1,0 +1,21 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - prometheus
+        - metrics
+  metrics:
+    enable:
+      http: true
+      jvm: true
+      logger: true
+      process: true
+      system: true
+    distribution:
+      percentiles-histogram:
+        all: true
+      percentiles:
+        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
+    tags:
+      application: ${spring.application.name}
