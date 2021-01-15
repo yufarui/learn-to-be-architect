@@ -1,0 +1,100 @@
+= Java Development Kit Tool Specifications
+:doctype: article
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+[preface]
+== 前言
+jdk内置提供了一套命令行工具,方便我们更好地管理,监控,使用java;
+阅读版本 jdk-15
+https://docs.oracle.com/en/java/javase/15/docs/specs/man/index.html[官方文档]
+
+[TIP]
+====
+linux设置当前用户的参数,方便一直观察某个进程
+[source,shell]
+----
+export pid=***
+echo $pid
+# 取消pid的设置
+unset pid
+----
+====
+
+== linux 系统分析工具
+
+vmstat::
+vmstat命令 的含义为显示虚拟内存状态（“Viryual Memor Statics”），但是它可以报告关于进程、内存、I/O等系统整体运行状态。
+https://wangchujiang.com/linux-command/c/vmstat.html[vmstat-命令说明]
+
+[NOTE]
+====
+监控硬盘使用率的另一个作用是得知系统是否在进行交换（swapping），计算机拥有固定数量的物理内存，但是它可以运行使用内存远远大于其物理内存的一些应用程序。应用程序占有的内存往往多于它们真正需要的内存，在这种情况下，操作系统将这些没有被用到内存挪入硬盘，当需要的时候将它们通过换页换进物理内存中。对于大多数应用程序，这种内存管理方式是不错的，但是对于服务器类型的应用程序而言，这种方式就显得尤为糟糕，因为由于 Java 内存堆的存在，服务器类型的应用往往需要用到非常多的物理内存。
+由于需要将硬盘中的数据与物理内存中的数据进行交换，会严重影响系统性能。vmstat 命令的结果中 si，so 两列数据表示了换入物理内存和换出物理内存的数据量。通过这些数据可以知道系统是否在进行交换。
+====
+
+iostat::
+iostat命令 被用于监视系统输入输出设备和CPU的使用情况。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。
+https://man7.org/linux/man-pages/man1/iostat.1.html[iostat-命令说明-英文]
+
+
+[width="100%",options="header,footer"]
+|====================
+|标识|说明  
+|Device|This column gives the device (or partition) name as
+listed in the /dev directory.
+|rrqm/s|每秒需要读取需求的次数
+|wrqm/s|每秒需要写入需求的次数
+|r/s|每秒实际读取需求的次数
+|w/s|每秒实际写入需求的次数
+|rsec/s|每秒读取区段的次数
+|wsec/s|每秒写入区段的次数
+|rkB/s|每秒实际读取的大小，单位为KB
+|wkB/s|每秒实际写入的大小，单位为KB
+|avgrq-sz|需求的平均大小区段
+|avgqu-sz|需求的平均队列长度
+|await|等待I/O平均的时间（milliseconds）
+|svctm|I/O需求完成的平均时间
+|%util|被I/O需求消耗的CPU百分比
+|====================
+
+[TIP]
+====
+当你需要使用使用正则来替换时,可以使用如下表达式
+[source]
+----
+(.+)\t+(.+)
+|$1|$2
+----
+====
+
+netstat::
+netstat命令 用来打印Linux中网络系统的状态信息，可让你得知整个Linux系统的网络情况。
+https://wangchujiang.com/linux-command/c/netstat.html[netstat-命令说明]
+[TIP]
+====
+常用的命令
+[source]
+----
+netsat -anp
+----
+====
+
+== java性能分析工具
+
+=== jcmd
+java 诊断工具
+
+https://cloud.tencent.com/developer/article/1130026[jcmd-参考文章]
+
+
+

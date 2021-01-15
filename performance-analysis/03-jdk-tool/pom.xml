@@ -9,13 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>performance-analysis</artifactId>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>01-jmx</module>
-        <module>02-actuator</module>
-        <module>03-jdk-tool</module>
-    </modules>
+    <artifactId>03-jdk-tool</artifactId>
 
 </project>

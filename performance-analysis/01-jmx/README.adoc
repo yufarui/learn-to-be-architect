@@ -1,1 +1,4 @@
+jmx::
+Java Management Extensions,提供了Java平台的管理和监控
+
 link:https://www.liaoxuefeng.com/wiki/1252599548343744/1282385687609378[代码来源]

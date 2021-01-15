@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+/**
+ * 添加mvc 拦截器,验证黑名单通过jmx修改成功
+ */
 @Configuration
 public class WebMVCConfig extends WebMvcConfigurationSupport {
 

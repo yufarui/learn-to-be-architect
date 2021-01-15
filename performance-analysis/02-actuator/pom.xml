@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>actuator</artifactId>
+    <artifactId>02-actuator</artifactId>
 
     <properties>
         <spring-boot-dependencies.version>2.4.1</spring-boot-dependencies.version>

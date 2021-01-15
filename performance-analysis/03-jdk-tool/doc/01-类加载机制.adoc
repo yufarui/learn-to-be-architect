@@ -1,0 +1,197 @@
+= 彻底剖析java的类加载过程
+:doctype: article
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+[preface]
+== 彻底剖析java的类加载过程
+剖析java的类加载过程
+
+== java命令执行代码流程
+
+执行流程参考::
+https://my.oschina.net/vbird/blog/1510800[jvm-启动流程-参考]
+
+.java命令基础启动方式
+[source]
+----
+java [<packageName>.]<className>
+
+java -jar <jarName>.jar
+----
+
+.流程步骤的修改和创建
+[plantuml,01-image/java_start.png,width=60%]
+--
+@startuml
+
+:使用java命令执行代码;
+
+fork
+->1.创建classLoader;
+#aqua:windows环境,jdk/bin/java.exe调用底层
+jvm.dll创建jvm虚拟机,linxu下为libjvm.so;
+
+#aquamarine:jvm通过c++创建BootstrapClassLoader,
+并由此classLoader创建其他类加载器;
+
+detach
+fork again
+
+->2.创建class;
+#orange:由类加载器,加载所需的类;
+
+#pink:执行程序Main方法;
+
+#pink:运行结束,销毁jvm;
+
+detach
+forkend
+
+@enduml
+--
+
+[TIP]
+====
+使用kbd:[locate libjvm.so]
+可以快速地在linux下找到文件
+====
+
+== classLoader的加载过程
+https://blog.csdn.net/chaofanwei2/article/details/51335278[Launch-初始化过程-参考]
+
+.类加载器初始化
+[plantuml,01-image/launcher_init.png,width=60%]
+--
+@startuml
+
+#orange:Classloader#initSystemClassLoader;
+->1.获取初始系统类加载器;
+#orangered:Launcher#getLauncher;
+->2.Launcher初始化,并依次加载类加载器;
+#aquamarine:加载ExtClassLoader;
+note right
+System.getProperty("java.ext.dirs");
+end note
+#aquamarine:加载AppClassLoader;
+note right
+System.getProperty("java.class.path");
+end note
+@enduml
+--
+
+====
+[source,java]
+----
+    static {
+        // -Xbootclasspath/a or -javaagent with Boot-Class-Path attribute
+        String append = VM.getSavedProperty("jdk.boot.class.path.append");
+        BOOT_LOADER =
+            new BootClassLoader((append != null && !append.isEmpty())
+                ? new URLClassPath(append, true)
+                : null);<1>
+        PLATFORM_LOADER = new PlatformClassLoader(BOOT_LOADER);<2>
+
+        String cp = System.getProperty("java.class.path");
+        if (cp == null || cp.isEmpty()) {
+            String initialModuleName = System.getProperty("jdk.module.main");
+            cp = (initialModuleName == null) ? "" : null;
+        }
+        URLClassPath ucp = new URLClassPath(cp, false);
+        APP_LOADER = new AppClassLoader(PLATFORM_LOADER, ucp);<3>
+    }
+
+----
+<1> 首先指定bootClassLoader,默认为 null;System.getProperty("sun.boot.class.path");
+<2> PlatformClassLoader 即ExtClassLoader,其parent->bootClassLoader
+<3> AppClassLoader,其parent->PlatformClassLoader
+====
+
+[source,java]
+----
+    // system class loader initialized
+    ClassLoader scl = ClassLoader.initSystemClassLoader();
+    
+    // set TCCL
+    Thread.currentThread().setContextClassLoader(scl);
+----
+
+====
+[source,java]
+----
+private Thread(...) {<1>
+    
+    Thread parent = currentThread();
+    ...
+    if (security == null || isCCLOverridden(parent.getClass()))
+        this.contextClassLoader = parent.getContextClassLoader();
+    else
+        this.contextClassLoader = parent.contextClassLoader;
+    ...
+----
+<1>Thread执行默认构造时,会继承父线程的contextClassLoader
+====
+
+[TIP]
+====
+分析源码时,尽量使用openjdk;
+oracle的jdk源码是不暴露的;
+====
+
+== 类加载机制
+https://juejin.cn/post/6844903564804882445[类加载机制-参考]
+
+[plantuml,01-image/load_class_process.png]
+--
+@startmindmap
+<style>
+mindmapDiagram {
+    rootNode {
+        BackgroundColor lightBlue
+    }
+    :depth(1) {
+      BackGroundColor white
+    }
+    :depth(2) {
+        BackgroundColor lightGreen
+    }
+    :depth(3) {
+        BackgroundColor pink
+    }
+}
+</style>
+
+* 类的加载过程
+** 加载
+*** 查找和导入Class文件\n使用时加载
+** 链接
+*** 把类的二进制数据合并到JRE中
+*** 验证
+**** 检查载入Class文件数据的正确性
+*** 准备
+**** 给类的静态变量分配内存，并赋予默认值
+*** 解析
+**** 符号引用转为直接引用\n静态方法(static method)转换为静态链接
+** 初始化
+*** 对类的静态变量初始化为指定的值，执行静态代码块
+
+
+@endmindmap
+--
+
+.加载阶段
+****
+相对于类的加载过程的其他阶段，加载阶段是开发期相对来说可控性比较强，该阶段既可以使用系统提供的类加载器完成，也可以由用户自定义的类加载器来完成，开发人员可以通过定义自己的类加载器去控制字节流的获取方式
+****
+
+== 双亲委托与类的加载
+icon:check-square[role="red"] 完成一套类似于tomcat的类加载器
