@@ -1,0 +1,82 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+
+    <changeSet id="user_preference_2020105" author="yufr">
+        <createTable tableName="user_preference" remarks="用户与偏好的关联表">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preference_code" type="varchar(255)" remarks="偏好的code">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preference_value" type="varchar(255)" remarks="用户设置的偏好值">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_time" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_time" type="timestamp"/>
+        </createTable>
+
+        <createIndex tableName="user_preference" indexName="idx_prop_user_id">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="preference_prototype_2020105" author="yufr">
+        <createTable tableName="preference_prototype" remarks="偏好设置表">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="varchar(255)" remarks="偏好的code,方便以json展示偏好">
+                <constraints nullable="false" unique="true" uniqueConstraintName="idx_prop_code"/>
+            </column>
+            <column name="display_name" type="varchar(255)" remarks="偏好的名称">
+                <constraints nullable="false"/>
+            </column>
+            <column name="default_value" type="varchar(255)" remarks="偏好的默认值">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_time" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_time" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="user_preference_data_2020105" author="yufr" >
+        <loadData
+                file="user_preference.csv"
+                separator=";"
+                tableName="user_preference">
+            <column name="id" type="numeric"/>
+            <column name="user_id" type="string"/>
+            <column name="preference_code" type="string"/>
+            <column name="preference_value" type="string"/>
+            <column name="created_by" type="string"/>
+        </loadData>
+    </changeSet>
+
+    <changeSet id="preference_prototype_data_2020105" author="yufr" >
+        <loadData
+                file="preference_prototype.csv"
+                separator=";"
+                tableName="preference_prototype">
+            <column name="id" type="numeric"/>
+            <column name="code" type="string"/>
+            <column name="display_name" type="string"/>
+            <column name="default_value" type="string"/>
+            <column name="created_by" type="string"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

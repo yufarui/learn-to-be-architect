@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks.fintech.indi.biz.yufr.mapper.PreferencePrototypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="indi.biz.yufr.entity.PreferencePrototype">
+        <result column="id" property="id" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_time" property="createdTime" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_time" property="lastModifiedTime" />
+        <result column="code" property="code" />
+        <result column="display_name" property="displayName" />
+        <result column="default_value" property="defaultValue" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        created_by,
+        created_time,
+        last_modified_by,
+        last_modified_time,
+        code, display_name, default_value
+    </sql>
+
+</mapper>

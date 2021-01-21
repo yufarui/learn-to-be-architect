@@ -11,6 +11,7 @@
 
     <modules>
         <module>performance-analysis</module>
+        <module>biz-template</module>
     </modules>
 
 </project>

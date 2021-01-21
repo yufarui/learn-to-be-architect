@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: user-domain
+  profiles:
+    active: dev, h2
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+  liquibase:
+    enabled: true
+    changeLog: file:changelog/changelog-master.xml
+    contexts: dev, faker
