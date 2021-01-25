@@ -78,12 +78,6 @@
         </dependency>
 
         <dependency>
-            <groupId>ojdbc6</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-bean-validators</artifactId>
             <version>${springfox.version}</version>
