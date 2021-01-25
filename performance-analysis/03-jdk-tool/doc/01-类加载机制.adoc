@@ -1,4 +1,4 @@
-= 彻底剖析java的类加载过程
+= java的类加载过程
 :doctype: article
 :encoding: utf-8
 :lang: zh-cn
@@ -11,10 +11,6 @@
 :hardbreaks:
 :experimental:
 :icons: font
-
-[preface]
-== 彻底剖析java的类加载过程
-剖析java的类加载过程
 
 == java命令执行代码流程
 
