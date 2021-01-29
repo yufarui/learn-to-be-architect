@@ -27,7 +27,7 @@ java [<packageName>.]<className>
 java -jar <jarName>.jar
 ----
 
-流程步骤的修改和创建::
+.流程步骤的修改和创建
 image::01-image/java_start.png[600,400]
 
 [TIP]
@@ -78,7 +78,9 @@ private Thread(...) {<2>
 ====
 
 == 类加载机制
-https://juejin.cn/post/6844903564804882445[类加载机制-参考]
+
+参考阅读-类加载机制::
+https://juejin.cn/post/6844903564804882445[]
 
 image::01-image/load_class_process.png[600,400]
 
@@ -104,5 +106,3 @@ https://www.cnblogs.com/xrq730/p/11440174.html[]
 不同目录下的jar包的共享与隔离
 
 image::01-image/tomcat_class_loader.png[800,600]
-
-

@@ -16,7 +16,7 @@ pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-a
 
 == jvm整体结构和内存模型
 
-推荐阅读::
+推荐阅读-jvm整体理解::
 https://www.zybuluo.com/adamhand/note/1304953[]
 
 .jvm整体结构和内存模型
@@ -29,6 +29,8 @@ https://cloud.tencent.com/developer/article/1406848[]
 
 .jvm内存参数
 image::03-image/03-jvm-options.png[600,400]
+
+'''
 
 [source]
 ----
@@ -53,6 +55,8 @@ services:
 === minor-gc (young gc)
 
 image::03-image/minor_gc.gif[600,400]
+
+'''
 
 .verbose:gc 描述
 ====
@@ -96,13 +100,12 @@ image::03-image/major_gc.gif[600,400]
 ====
 
 === 担保机制
-参考阅读::
+
+参考阅读-担保机制::
 https://www.cnblogs.com/july-sunny/p/12618054.html[]
 
 在发生Minor GC之前，虚拟机会检查老年代最大可用的连续空间是否大于新生代所有对象的总空间，
-
 如果大于，则此次Minor GC是安全的
-
 如果小于，担保机制,会提前触发一次full-gc
 
 === sof and oom

@@ -83,3 +83,33 @@ mindmapDiagram {
 
 @endmindmap
 --
+
+[plantuml,02-image/create_object.png]
+--
+@startmindmap
+<style>
+mindmapDiagram {
+    rootNode {
+        BackgroundColor lightBlue
+    }
+    :depth(1) {
+      BackGroundColor white
+    }
+    :depth(2) {
+        BackgroundColor lightGreen
+    }
+    :depth(3) {
+        BackgroundColor pink
+    }
+}
+</style>
+
+* 对象的创建
+** 类加载检查,若类未加载则先加载类
+** 分配内存
+** 初始化
+** 设置对象头
+** 执行<init>方法,属性赋值
+
+@endmindmap
+--
