@@ -1,5 +1,5 @@
 = java的类加载过程
-:doctype: article
+:doctype: book
 :encoding: utf-8
 :lang: zh-cn
 :toc: left
@@ -11,6 +11,8 @@
 :hardbreaks:
 :experimental:
 :icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
 
 == java命令执行代码流程
 
@@ -56,7 +58,7 @@ forkend
 @enduml
 --
 
-[TIP]
+[NOTE]
 ====
 使用kbd:[locate libjvm.so]
 可以快速地在linux下找到文件
@@ -85,46 +87,28 @@ end note
 @enduml
 --
 
+[TIP]
 ====
-[source,java]
-----
-    static {
-        // -Xbootclasspath/a or -javaagent with Boot-Class-Path attribute
-        String append = VM.getSavedProperty("jdk.boot.class.path.append");
-        BOOT_LOADER =
-            new BootClassLoader((append != null && !append.isEmpty())
-                ? new URLClassPath(append, true)
-                : null);<1>
-        PLATFORM_LOADER = new PlatformClassLoader(BOOT_LOADER);<2>
+String javaClassPath = System.getProperty("java.class.path");
 
-        String cp = System.getProperty("java.class.path");
-        if (cp == null || cp.isEmpty()) {
-            String initialModuleName = System.getProperty("jdk.module.main");
-            cp = (initialModuleName == null) ? "" : null;
-        }
-        URLClassPath ucp = new URLClassPath(cp, false);
-        APP_LOADER = new AppClassLoader(PLATFORM_LOADER, ucp);<3>
-    }
+你可以从java.class.path下拿到应用程序所属的类
 
-----
-<1> 首先指定bootClassLoader,默认为 null;System.getProperty("sun.boot.class.path");
-<2> PlatformClassLoader 即ExtClassLoader,其parent->bootClassLoader
-<3> AppClassLoader,其parent->PlatformClassLoader
 ====
-
-[source,java]
-----
-    // system class loader initialized
-    ClassLoader scl = ClassLoader.initSystemClassLoader();
-    
-    // set TCCL
-    Thread.currentThread().setContextClassLoader(scl);
-----
 
 ====
 [source,java]
 ----
-private Thread(...) {<1>
+
+/**
+ * 类加载时，设置了ContextClassLoader
+ */
+ClassLoader scl = ClassLoader.initSystemClassLoader();
+Thread.currentThread().setContextClassLoader(scl);<1>
+
+/**
+ * 若无指定，子线程继承父线程ContextClassLoader
+ */
+private Thread(...) {<2>
     
     Thread parent = currentThread();
     ...
@@ -134,13 +118,8 @@ private Thread(...) {<1>
         this.contextClassLoader = parent.contextClassLoader;
     ...
 ----
-<1>Thread执行默认构造时,会继承父线程的contextClassLoader
-====
-
-[TIP]
-====
-分析源码时,尽量使用openjdk;
-oracle的jdk源码是不暴露的;
+<1>java会在线程中设置线程上下文类加载器
+<1>子线程通过构造函数会继承父线程的contextClassLoader
 ====
 
 == 类加载机制
@@ -180,7 +159,6 @@ mindmapDiagram {
 ** 初始化
 *** 对类的静态变量初始化为指定的值，执行静态代码块
 
-
 @endmindmap
 --
 
@@ -190,4 +168,21 @@ mindmapDiagram {
 ****
 
 == 双亲委托与类的加载
-icon:check-square[role="red"] 完成一套类似于tomcat的类加载器
+
+推荐阅读::
+https://juejin.cn/post/6844903550300979214[]
+
+SPI的理解::
+https://www.cnblogs.com/xrq730/p/11440174.html[]
+
+=== 关于SPI中的类加载机制
+
+通过线程上下文类加载器,SPI可以从AppClassLoader拿到对应的服务子类;
+
+=== 关于tomcat的类加载机制
+
+不同目录下的jar包的共享与隔离
+
+image::01-image/tomcat_class_loader.png[]
+
+

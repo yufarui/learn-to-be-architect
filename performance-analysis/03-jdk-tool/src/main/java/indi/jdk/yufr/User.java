@@ -6,22 +6,24 @@ package indi.jdk.yufr;
  */
 public class User {
 
-    private Integer id;
-    private String name;
+    private byte[] cache;
 
-    public Integer getId() {
-        return id;
+    public User(int size) {
+        this.cache = new byte[size];
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    // 对象创建,仅线程可见,对象无法逃逸
+    public static void allocSmallObject() {
+        new User(10 * 1024);
     }
 
-    public String getName() {
-        return name;
+    public static void allocObject() {
+        new User(100 * 1024);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    // 创建大对象,逃逸,并进入old区
+    public static void allocBigObject() {
+        new User(1024 * 1024);
     }
+
 }

@@ -12,6 +12,8 @@
 :experimental:
 :icons: font
 
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
 = 对象的创建
 
 推荐阅读::
@@ -96,7 +98,7 @@ invokespecial 预设调用构造器链
 推荐阅读::
 https://www.cnblogs.com/myseries/p/12884249.html[]
 
-.对象如何分配
+=== 对象如何分配
 ****
 指针碰撞::
 假设Java堆是绝对规整的，所有用过的内存放在一边，空闲的内存放在另一边，中间放一个指针作为分界点的指示器。为对象分配内存时把那个指针向空闲空间那边挪动一段与对象大小相等的距离。
@@ -107,7 +109,7 @@ Java堆中的内存不是规整的，以使用的内存和空闲的内存相互�
 选择哪种分配方式由Java堆是否规整决定，而Java堆是否规整又由所采用的垃圾收集器是否带有压缩整理功能决定。
 ****
 
-.解决并发问题的方法
+=== 解决并发问题的方法
 ****
 CAS(compare and swap):: 虚拟机采用CAS配上失败重试的方式保证更新操作的原子性来对分配内存空间的动作进行同步处理。
 
@@ -115,7 +117,7 @@ TLAB(Thread Local Allocation Buffer)::
 把内存分配的动作按照线程划分在不同的空间之中进行，即每个线程在Java堆中预先分配一小块内存。通过­XX:+/­ UseTLAB参数来设定虚拟机是否使用TLAB(JVM会默认开启­XX:+UseTLAB)，­XX:TLABSize 指定TLAB大小。
 ****
 
-.分配内存过程图
+=== 分配内存过程图
 image::02-image/allocate_object_complex.png[]
 
 
