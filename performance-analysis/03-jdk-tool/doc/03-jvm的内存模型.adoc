@@ -108,8 +108,18 @@ https://www.cnblogs.com/july-sunny/p/12618054.html[]
 如果大于，则此次Minor GC是安全的
 如果小于，担保机制,会提前触发一次full-gc
 
-=== sof and oom
-
 === gc的时机
 
+Minor GC::
+其触发条件非常简单，当 Eden 空间满时，就将触发一次Minor GC
+
+Full GC::
+- 手动触发System.gc()
+- 老年代空间不足
+- 担保失败
+- 执行 CMS GC 的过程中同时有对象要放入老年代
+
+
 === gc-root
+
+=== sof and oom
