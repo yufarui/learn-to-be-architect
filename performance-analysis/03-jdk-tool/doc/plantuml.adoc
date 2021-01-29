@@ -1,0 +1,85 @@
+[plantuml,01-image/java_start.png,width=60%]
+--
+@startuml
+
+:使用java命令执行代码;
+
+fork
+->1.创建classLoader;
+#aqua:windows环境,jdk/bin/java.exe调用底层
+jvm.dll创建jvm虚拟机,linxu下为libjvm.so;
+
+#aquamarine:jvm通过c++创建BootstrapClassLoader,
+并由此classLoader创建其他类加载器;
+
+detach
+fork again
+
+->2.创建class;
+#orange:由类加载器,加载所需的类;
+
+#pink:执行程序Main方法;
+
+#pink:运行结束,销毁jvm;
+
+detach
+forkend
+
+@enduml
+--
+
+[plantuml,01-image/launcher_init.png,width=60%]
+--
+@startuml
+
+#orange:Classloader#initSystemClassLoader;
+->1.获取初始系统类加载器;
+#orangered:Launcher#getLauncher;
+->2.Launcher初始化,并依次加载类加载器;
+#aquamarine:加载ExtClassLoader;
+note right
+System.getProperty("java.ext.dirs");
+end note
+#aquamarine:加载AppClassLoader;
+note right
+System.getProperty("java.class.path");
+end note
+@enduml
+--
+
+[plantuml,01-image/load_class_process.png]
+--
+@startmindmap
+<style>
+mindmapDiagram {
+    rootNode {
+        BackgroundColor lightBlue
+    }
+    :depth(1) {
+      BackGroundColor white
+    }
+    :depth(2) {
+        BackgroundColor lightGreen
+    }
+    :depth(3) {
+        BackgroundColor pink
+    }
+}
+</style>
+
+* 类的加载过程
+** 加载
+*** 查找和导入Class文件\n使用时加载
+** 链接
+*** 把类的二进制数据合并到JRE中
+*** 验证
+**** 检查载入Class文件数据的正确性
+*** 准备
+**** 给类的静态变量分配内存，并赋予默认值
+*** 解析
+**** 符号引用转为直接引用\n静态方法(static method)转换为静态链接
+** 初始化
+*** 对类的静态变量初始化为指定的值，执行静态代码块
+
+@endmindmap
+--
