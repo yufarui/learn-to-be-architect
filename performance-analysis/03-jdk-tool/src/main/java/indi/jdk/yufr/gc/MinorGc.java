@@ -1,6 +1,6 @@
 package indi.jdk.yufr.gc;
 
-import indi.jdk.yufr.User;
+import indi.jdk.yufr.Resource;
 
 /**
  * @date: 2021/1/27 9:41
@@ -9,12 +9,12 @@ import indi.jdk.yufr.User;
 public class MinorGc {
 
     // VMOptions
-    // -Xms1g -Xmx1g -Xmn300m -verbose:gc -XX:+PrintFlagsFinal
+    // -Xms15m -Xmx15m -verbose:gc -XX:+PrintFlagsFinal -showversion
     public static void main(String[] args) {
         while (true) {
-            User.allocObject();
+            Resource.allocSmallObject();
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
             }
         }

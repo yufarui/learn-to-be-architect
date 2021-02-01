@@ -1,5 +1,7 @@
 package indi.jdk.yufr.oom;
 
+import indi.jdk.yufr.Resource;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +11,13 @@ import java.util.List;
  */
 public class OOMOfHeap {
 
-    // -Xms20m -Xmx20m -verbose:gc
+    private static int _1MB = 1024 * 1024;
+
+    // -Xms15m -Xmx15m -verbose:gc
     public static void main(String[] args) {
-        List<OOMOfHeap> list = new ArrayList<>();
+        List<Resource> list = new ArrayList<>();
         while (true) {
-            list.add(new OOMOfHeap());
+            list.add(new Resource(_1MB));
         }
     }
 }
