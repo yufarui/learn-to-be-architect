@@ -93,12 +93,12 @@ TLAB(Thread Local Allocation Buffer)::
 === 分配内存过程图
 image::image/02_allocate_object_complex.png[1000,800]
 
-.对象初始化
+== 对象初始化
 ****
 内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头）， 如果使用TLAB，这一工作过程也 可以提前至TLAB分配时进行。这一步操作保证了对象的实例字段在Java代码中可以不赋初始值就直接使用，程序能访问 到这些字段的数据类型所对应的零值。
 ****
 
-=== 对象头
+== 对象头
 
 推荐阅读-对象头和对象::
 https://blog.csdn.net/lkforce/article/details/81128115[]
@@ -113,12 +113,12 @@ image::image/02_mark_word&lock.png[300,500]
 
 '''
 
-.执行<init>方法,属性赋值
+== 执行<init>方法,属性赋值
 ****
 执行<init>方法，即对象按照程序员的意愿进行初始化。对应到语言层面上讲，就是为属性赋值（注意，这与上面的赋 零值不同，这是由程序员赋的值），和执行构造方法。
 ****
 
-=== 压缩指针
+== 压缩指针
 
 压缩指针的示意图::
 https://gist.github.com/arturmkrtchyan/43d6135e8a15798cc46c#file-objectheader64-txt-L15[]
