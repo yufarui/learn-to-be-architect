@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>03-jdk-tool</artifactId>
+    <artifactId>03-jdk-analysis</artifactId>
     <dependencies>
         <dependency>
             <groupId>cglib</groupId>

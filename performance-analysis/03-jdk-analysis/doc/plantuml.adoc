@@ -1,4 +1,4 @@
-[plantuml,01-image/java_start.png,width=60%]
+[plantuml,image/01_java_start.png,width=60%]
 --
 @startuml
 
@@ -28,7 +28,7 @@ forkend
 @enduml
 --
 
-[plantuml,01-image/launcher_init.png,width=60%]
+[plantuml,image/01_launcher_init.png,width=60%]
 --
 @startuml
 
@@ -47,7 +47,7 @@ end note
 @enduml
 --
 
-[plantuml,01-image/load_class_process.png]
+[plantuml,image/01_load_class_process.png]
 --
 @startmindmap
 <style>
@@ -84,7 +84,7 @@ mindmapDiagram {
 @endmindmap
 --
 
-[plantuml,02-image/create_object.png]
+[plantuml,image/02_create_object.png]
 --
 @startmindmap
 <style>

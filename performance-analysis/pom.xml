@@ -15,7 +15,7 @@
     <modules>
         <module>01-jmx</module>
         <module>02-actuator</module>
-        <module>03-jdk-tool</module>
+        <module>03-jdk-analysis</module>
     </modules>
 
 </project>

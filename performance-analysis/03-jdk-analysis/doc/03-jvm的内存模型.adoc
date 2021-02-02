@@ -20,7 +20,7 @@ pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-a
 https://www.zybuluo.com/adamhand/note/1304953[window=_blank]
 
 .jvm整体结构和内存模型
-image::03-image/03-jvm-memory-molde.png[800,600]
+image::image/03_jvm_memory_molde.png[800,600]
 
 == jvm内存参数设置
 
@@ -31,7 +31,7 @@ https://docs.oracle.com/en/java/javase/15/docs/specs/man/java.html[jdk15-官方�
 https://cloud.tencent.com/developer/article/1406848[window=_blank]
 
 .jvm内存参数
-image::03-image/03-jvm-options.png[600,400]
+image::image/03_jvm_options.png[600,400]
 
 '''
 
@@ -126,7 +126,7 @@ link:..\src\main\java\indi\jdk\yufr\gc\MinorGc.java[代码描述-MinorGc.java,wi
 以下测试实例，vm-option
 -Xms1g -Xmx1g -Xmn300m
 
-image::03-image/minor_gc.gif[600,400]
+image::image/03_minor_gc.gif[600,400]
 
 '''
 
@@ -146,7 +146,7 @@ gc前年轻代大小->gc后年轻代大小(堆总的大小)
 
 link:..\src\main\java\indi\jdk\yufr\gc\MajorGc.java[代码描述-MajorGc.java,window=_blank]
 
-image::03-image/major_gc.gif[600,400]
+image::image/03_major_gc.gif[600,400]
 
 .verbose:gc 描述
 ====

@@ -14,13 +14,13 @@
 
 pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
 
-= 对象的创建
+== 对象的创建
 
 推荐阅读-Java对象的创建过程::
 https://blog.csdn.net/justloveyou_/article/details/72466416[]
 
 .对象的创建
-image::02-image/create_object.png[600,400]
+image::image/02_create_object.png[600,400]
 
 == 对象的创建时机
 
@@ -91,7 +91,7 @@ TLAB(Thread Local Allocation Buffer)::
 ****
 
 === 分配内存过程图
-image::02-image/allocate_object_complex.png[1000,800]
+image::image/02_allocate_object_complex.png[1000,800]
 
 .对象初始化
 ****
@@ -104,12 +104,12 @@ image::02-image/allocate_object_complex.png[1000,800]
 https://blog.csdn.net/lkforce/article/details/81128115[]
 
 .JVM(32位)中Mark Word的存储内容
-image::02-image/object_head_mark_word.jpg[800,600]
+image::image/02_object_head_mark_word.jpg[800,600]
 
 '''
 
 .锁的状态变化
-image::02-image/mark_word&lock.png[300,500]
+image::image/02_mark_word&lock.png[300,500]
 
 '''
 

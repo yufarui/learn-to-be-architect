@@ -28,7 +28,7 @@ java -jar <jarName>.jar
 ----
 
 .流程步骤的修改和创建
-image::01-image/java_start.png[600,400]
+image::image/01_java_start.png[600,400]
 
 [TIP]
 ====
@@ -42,7 +42,7 @@ image::01-image/java_start.png[600,400]
 https://blog.csdn.net/chaofanwei2/article/details/51335278[]
 
 .类加载器初始化
-image::01-image/launcher_init.png[600,400]
+image::image/01_launcher_init.png[600,400]
 
 [TIP]
 ====
@@ -82,7 +82,7 @@ private Thread(...) {<2>
 参考阅读-类加载机制::
 https://juejin.cn/post/6844903564804882445[]
 
-image::01-image/load_class_process.png[600,400]
+image::image/01_load_class_process.png[600,400]
 
 .加载阶段
 ****
@@ -105,4 +105,4 @@ https://www.cnblogs.com/xrq730/p/11440174.html[]
 
 不同目录下的jar包的共享与隔离
 
-image::01-image/tomcat_class_loader.png[800,600]
+image::image/01_tomcat_class_loader.png[800,600]
