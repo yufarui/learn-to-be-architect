@@ -9,23 +9,8 @@ import indi.jdk.yufr.Resource;
 public class GcRoot {
 
     /**
-     * 测试常量引用对象作为GCRoots
-     * -Xms1024m -Xmx1024m -Xmn512m -verbose:gc -showversion
-     * <p>
-     * 运行结果:
-     * 在栈帧中创建对象
-     * [GC (System.gc())  136233K->113456K(983040K), 0.0785660 secs]
-     * [Full GC (System.gc())  113456K->113312K(983040K), 0.0422883 secs]
-     * 第一次GC完成
-     * [GC (System.gc())  121177K->113344K(983040K), 0.0018983 secs]
-     * [Full GC (System.gc())  113344K->31382K(983040K), 0.0109605 secs]
-     *
-     * [GC (System.gc())  88071K->31382K(983040K), 0.0010654 secs]
-     * [Full GC (System.gc())  31382K->31377K(983040K), 0.0197288 secs]
-     *
-     * [GC (System.gc())  31377K->31377K(983040K), 0.0009887 secs]
-     * [Full GC (System.gc())  31377K->10897K(983040K), 0.0113364 secs]
-     * <p>
+     * GCRoots:栈帧,静态变量,常量
+     * -Xms1024m -Xmx1024m -Xmn512m -showversion -XX:+PrintGCDetails
      */
     private static int _10MB = 10 * 1024 * 1024;
     private static final Resource constantResource = new Resource(_10MB);

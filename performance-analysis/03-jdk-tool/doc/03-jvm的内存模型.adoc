@@ -17,7 +17,7 @@ pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-a
 == jvm整体结构和内存模型
 
 推荐阅读-jvm整体理解::
-https://www.zybuluo.com/adamhand/note/1304953[]
+https://www.zybuluo.com/adamhand/note/1304953[window=_blank]
 
 .jvm整体结构和内存模型
 image::03-image/03-jvm-memory-molde.png[800,600]
@@ -25,10 +25,10 @@ image::03-image/03-jvm-memory-molde.png[800,600]
 == jvm内存参数设置
 
 jdk15-jvm-option::
-https://docs.oracle.com/en/java/javase/15/docs/specs/man/java.html[jdk15-官方文档-jvm参数]
+https://docs.oracle.com/en/java/javase/15/docs/specs/man/java.html[jdk15-官方文档-jvm参数,window=_blank]
 
 参考阅读-内存配置参数::
-https://cloud.tencent.com/developer/article/1406848[]
+https://cloud.tencent.com/developer/article/1406848[window=_blank]
 
 .jvm内存参数
 image::03-image/03-jvm-options.png[600,400]
@@ -50,7 +50,7 @@ services:
       - _JAVA_OPTIONS=-Xms2048m -Xmx2048m -Xmn1024m -Xss512k -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m
 ----
 
-== gc
+== gc的初步认识
 
 === gc的时机
 
@@ -78,7 +78,7 @@ Sets the desired percentage of survivor space (0 to 100) used after young garbag
 === 担保机制
 
 参考阅读-担保机制::
-https://www.cnblogs.com/july-sunny/p/12618054.html[]
+https://www.cnblogs.com/july-sunny/p/12618054.html[window=_blank]
 
 在发生Minor GC之前，虚拟机会检查老年代最大可用的连续空间是否大于新生代所有对象的总空间，
 如果大于，则此次Minor GC是安全的
@@ -103,7 +103,8 @@ jvm-option: -Xnoclassgc 禁止类的卸载
 
 [TIP]
 ====
- 在大量使用反射、动态代理、CGLib 等 ByteCode 框架、动态生成 JSP 以及 OSGi 这类频繁自定义 ClassLoader 的场景都需要虚拟机具备类卸载功能，以保证不会出现内存溢出。
+在大量使用反射、动态代理、CGLib 等 ByteCode 框架、动态生成 JSP 以及 OSGi 这类频繁自定义
+ClassLoader 的场景都需要虚拟机具备类卸载功能，以保证不会出现内存溢出。
 ====
 
 === finalize
@@ -170,9 +171,8 @@ link:..src\main\java\indi\jdk\yufr\oom\StackOverFlowError.java[代码描述-Stac
 java堆用于存放对象的实例，当需要为对象的实例分配内存时，而堆的占用已经达到了设置的最大值(通过-Xmx)设置最大值，则抛出OutOfMemoryError异常。
 
 推荐阅读-OutOfMemoryError系列::
-https://blog.csdn.net/renfufei/article/details/76350794[]
+https://blog.csdn.net/renfufei/article/details/76350794[window=_blank]
 
 推荐阅读-OutofMemoryError-英文::
-https://plumbr.io/outofmemoryerror[]
-
+https://plumbr.io/outofmemoryerror[window=_blank]
 

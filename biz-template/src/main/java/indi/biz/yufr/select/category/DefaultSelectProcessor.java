@@ -1,7 +1,6 @@
 package indi.biz.yufr.select.category;
 
 import indi.biz.yufr.entity.PreferencePrototype;
-import indi.biz.yufr.entity.UserAttributeDefinition;
 import indi.biz.yufr.select.DictionarySelectEnum;
 import indi.biz.yufr.select.SelectOption;
 import indi.biz.yufr.select.SelectOptionRequest;
@@ -9,7 +8,6 @@ import indi.biz.yufr.select.SelectResponse;
 import indi.biz.yufr.select.service.SelectProcessor;
 import indi.biz.yufr.select.service.SelectProcessorContext;
 import indi.biz.yufr.service.IPreferencePrototypeService;
-import indi.biz.yufr.service.IUserAttributeDefinitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,8 +23,6 @@ public class DefaultSelectProcessor implements SelectProcessor {
 
     @Autowired
     private IPreferencePrototypeService preferencePrototypeService;
-    @Autowired
-    private IUserAttributeDefinitionService userAttributeDefinitionService;
 
     @Override
     public SelectResponse<?> process(SelectOptionRequest request) {
@@ -34,16 +30,9 @@ public class DefaultSelectProcessor implements SelectProcessor {
         switch (Objects.requireNonNull(selectEnum)) {
             case PREFERENCE_PROP:
                 return handlerPreferenceProp();
-            case ATTRIBUTE_DEF:
-                return handlerAttributeDef();
         }
 
         return null;
-    }
-
-    private SelectResponse<?> handlerAttributeDef() {
-        List<UserAttributeDefinition> entityList = userAttributeDefinitionService.list();
-        return SelectProcessorContext.handlerSelection(entityList, this::createSelectOption);
     }
 
     private SelectResponse<PreferencePrototype> handlerPreferenceProp() {
@@ -63,13 +52,4 @@ public class DefaultSelectProcessor implements SelectProcessor {
         return selectOption;
     }
 
-    private SelectOption<UserAttributeDefinition> createSelectOption(UserAttributeDefinition entity) {
-
-        SelectOption<UserAttributeDefinition> selectOption = new SelectOption<>();
-        selectOption.setKey(entity.getCode());
-        selectOption.setValue(entity.getDisplayName());
-        selectOption.setData(entity);
-
-        return selectOption;
-    }
 }
