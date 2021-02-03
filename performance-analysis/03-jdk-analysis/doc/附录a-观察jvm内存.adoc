@@ -15,6 +15,8 @@
 pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
 
 == 使用hsdb观察对象
+jhsdb::
+attach to a Java process or launch a postmortem debugger to analyze the content of a core dump from a crashed Java Virtual Machine (JVM)
 
 官方文档-jhsdb-观察对象::
 https://docs.oracle.com/en/java/javase/15/docs/specs/man/jhsdb.html[]
