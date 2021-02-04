@@ -10,11 +10,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>03-jdk-analysis</artifactId>
+
+    <properties>
+        <groovy.version>3.0.4</groovy.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.2.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>${groovy.version}</version>
         </dependency>
     </dependencies>
 

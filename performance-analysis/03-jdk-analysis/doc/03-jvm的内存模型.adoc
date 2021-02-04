@@ -95,6 +95,8 @@ link:..\src\main\java\indi\jdk\yufr\gc\GcRoot.java[代码描述-GcRoot.java,wind
 
 === 类的卸载
 
+link:..\src\main\java\indi\jdk\yufr\gc\LoadAndUnLoadClass.java[代码描述-LoadAndUnLoadClass.java,window=_blank]
+
 - 该类所有的实例都已经被回收，也就是堆中不存在该类的任何实例。
 - 加载该类的 ClassLoader 已经被回收。
 - 该类对应的 Class 对象没有在任何地方被引用，也就无法在任何地方通过反射访问该类方法。
