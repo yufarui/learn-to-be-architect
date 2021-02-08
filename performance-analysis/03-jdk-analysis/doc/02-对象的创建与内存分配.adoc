@@ -54,18 +54,6 @@ public class StaticTest {
 按照代码顺序,b的初始化在 st实例之后,故b=0;
 ====
 
-[TIP]
-====
-我们可以使用
-javap -c xxx.class 将字节码指令,以反汇编的方式打印出来
-[source]
-----
-0: aload_0
-1: invokespecial #2                  // Method java/lang/Object."<init>":()V
-----
-invokespecial 预设调用构造器链
-====
-
 == 分配内存
 
 推荐阅读-对象的分配::
@@ -93,6 +81,10 @@ TLAB(Thread Local Allocation Buffer)::
 === 分配内存过程图
 image::image/02_allocate_object_complex.png[1000,800]
 
+对象无法逃逸,将在栈帧内创建对象
+栈帧结束,则对象被回收
+link:..\src\main\java\indi\jdk\yufr\gc\CanNotEscape.java[代码描述-CanNotEscape.java,window=_blank]
+
 == 对象初始化
 ****
 内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头）， 如果使用TLAB，这一工作过程也 可以提前至TLAB分配时进行。这一步操作保证了对象的实例字段在Java代码中可以不赋初始值就直接使用，程序能访问 到这些字段的数据类型所对应的零值。
@@ -111,11 +103,6 @@ image::image/02_object_head_mark_word.jpg[800,600]
 
 '''
 
-.锁的状态变化
-image::image/02_mark_word&lock.png[300,500]
-
-'''
-
 == 执行<init>方法,属性赋值
 ****
 执行<init>方法，即对象按照程序员的意愿进行初始化。对应到语言层面上讲，就是为属性赋值（注意，这与上面的赋 零值不同，这是由程序员赋的值），和执行构造方法。
@@ -125,8 +112,3 @@ image::image/02_mark_word&lock.png[300,500]
 
 压缩指针的示意图::
 https://gist.github.com/arturmkrtchyan/43d6135e8a15798cc46c#file-objectheader64-txt-L15[]
-
-待阅读文章::
-https://www.opsian.com/blog/jvm-tlabs-important-multicore/
-https://www.opsian.com/blog/jvms-allocateprefetch-options/
-

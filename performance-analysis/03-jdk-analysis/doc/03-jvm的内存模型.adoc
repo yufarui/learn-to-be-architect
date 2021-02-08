@@ -60,6 +60,17 @@ Full GC::
 - 手动触发System.gc()
 - 担保失败
 
+=== gc-root
+
+可达性分析-依据gc-root判断当前内存对象是否为垃圾
+
+- 虚拟机栈中局部变量表中引用的对象
+- 本地方法栈中 JNI(Java Native Interface，即一般所说的Native方法) 中引用的对象
+- 方法区中类静态属性引用的对象
+- 方法区中的常量引用的对象
+
+link:..\src\main\java\indi\jdk\yufr\gc\GcRoot.java[代码描述-GcRoot.java,window=_blank]
+
 === 对象进入老年代的契机
 详看 02-对象的创建与内存分配中 分配内存过程图
 
@@ -75,7 +86,6 @@ Sets the desired percentage of survivor space (0 to 100) used after young garbag
 
 link:..\src\main\java\indi\jdk\yufr\gc\TargetSurvivorRatioGc.java[代码描述-TargetSurvivorRatioGc.java,window=_blank]
 
-
 === 担保机制
 
 参考阅读-担保机制::
@@ -86,31 +96,6 @@ https://www.cnblogs.com/july-sunny/p/12618054.html[window=_blank]
 如果小于，担保机制,会提前触发一次full-gc
 
 link:..\src\main\java\indi\jdk\yufr\gc\HandlePromotion.java[代码描述-HandlePromotion.java,window=_blank]
-
-=== gc-root
-
-- 虚拟机栈中局部变量表中引用的对象
-- 本地方法栈中 JNI(Java Native Interface，即一般所说的Native方法) 中引用的对象
-- 方法区中类静态属性引用的对象
-- 方法区中的常量引用的对象
-
-link:..\src\main\java\indi\jdk\yufr\gc\GcRoot.java[代码描述-GcRoot.java,window=_blank]
-
-=== 类的卸载
-
-link:..\src\main\java\indi\jdk\yufr\gc\LoadAndUnLoadClass.java[代码描述-LoadAndUnLoadClass.java,window=_blank]
-
-- 该类所有的实例都已经被回收，也就是堆中不存在该类的任何实例。
-- 加载该类的 ClassLoader 已经被回收。
-- 该类对应的 Class 对象没有在任何地方被引用，也就无法在任何地方通过反射访问该类方法。
-
-jvm-option: -Xnoclassgc 禁止类的卸载
-
-[TIP]
-====
-在大量使用反射、动态代理、CGLib 等 ByteCode 框架、动态生成 JSP 以及 OSGi 这类频繁自定义
-ClassLoader 的场景都需要虚拟机具备类卸载功能，以保证不会出现内存溢出。
-====
 
 === finalize
 
@@ -125,10 +110,6 @@ https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/consideration
 https://blog.csdn.net/qiang_zi_/article/details/100700784[JVM-优化案例-SoftRefLRUPolicyMSPerMB,window=_blank]
 
 link:..\src\main\java\indi\jdk\yufr\gc\MultiReference.java[代码描述-MultiReference.java,window=_blank]
-
-=== can not escape(无法逃逸)
-
-link:..\src\main\java\indi\jdk\yufr\gc\CanNotEscape.java[代码描述-CanNotEscape.java,window=_blank]
 
 === minor-gc (young gc)
 
@@ -180,9 +161,6 @@ link:..src\main\java\indi\jdk\yufr\oom\StackOverFlowError.java[代码描述-Stac
 
 堆内存溢出::
 java堆用于存放对象的实例，当需要为对象的实例分配内存时，而堆的占用已经达到了设置的最大值(通过-Xmx)设置最大值，则抛出OutOfMemoryError异常。
-
-推荐阅读-OutOfMemoryError系列::
-https://blog.csdn.net/renfufei/article/details/76350794[window=_blank]
 
 推荐阅读-OutofMemoryError-英文::
 https://plumbr.io/outofmemoryerror[window=_blank]

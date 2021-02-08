@@ -27,17 +27,16 @@ public class CanNotEscape {
 
         for (int i = 0; i < 1000000000; i++) {
             // 1.当前对象无法逃逸，只会在栈内创建
-//            new User();
+            new Resource();
             // 2.数组 作为对象 会强制在堆内开辟空间，若为数组赋值，则对象会逃逸
-            // new User(1);
+            // new Resource(1);
             // 3.字符串作为对象，会在堆内常量池建立缓存，故若字符串固定，则对象同意无法逃逸
-//            new User(0, "name");
+//            new Resource(0, "name");
             // 4.若字符串不固定，对象还是强制在堆内开辟空间，对象逃逸
-//            new User(i, "name" + i);
-            // 5.其他对象也是相同的处理
-//            new User(new User());
-//            new User(User.commonSon);
-            new Resource(stackResource);
+//            new Resource(i, "name" + i);
+            // 5. 思考如下两种方案 是否逃逸
+//            new Resource(new User());
+//            new Resource(stackResource);
         }
         long end = System.currentTimeMillis();
         System.out.println(end - start);
