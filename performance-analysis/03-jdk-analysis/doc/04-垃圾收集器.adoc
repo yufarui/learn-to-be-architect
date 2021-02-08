@@ -14,3 +14,10 @@
 
 pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
 
+[preface]
+== jdk8-官网调优指南
+https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/[window=_blank]
+
+== 垃圾回收算法
+
+=== 复制算法

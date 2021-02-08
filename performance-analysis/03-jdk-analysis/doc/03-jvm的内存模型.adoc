@@ -39,15 +39,6 @@ image::image/03_jvm_options.png[600,400]
 ----
 # java 命令参数设置
 java -Xms2048m -Xmx2048m -Xmn1024m -Xss512k -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m ‐jar xxx.jar
-
-# docker-compose设置options
-version: '3.4'
-services:
-  ${java-service-name}:
-    container_name: ${container-name}
-    image: java:8-jre
-    environment:
-      - _JAVA_OPTIONS=-Xms2048m -Xmx2048m -Xmn1024m -Xss512k -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=256m
 ----
 
 == gc的初步认识
@@ -55,11 +46,18 @@ services:
 === gc的时机
 
 Minor GC::
-其触发条件非常简单，当 Eden 空间满时，就将触发一次Minor GC
+其触发条件非常简单，当 Eden 空间满时，就将触发一次Minor GC,存活的对象迁移到survivor
+
+下图演示了minor-GC的大致流程
+
+image::image/03_object_gc_process_01.jpg[600,400]
+image::image/03_object_gc_process_02.jpg[600,400]
+image::image/03_object_gc_process_03.jpg[600,400]
+image::image/03_object_gc_process_04.jpg[600,400]
 
 Full GC::
-- 手动触发System.gc()
 - 老年代空间不足
+- 手动触发System.gc()
 - 担保失败
 
 === 对象进入老年代的契机
@@ -74,6 +72,9 @@ Sets the maximum tenuring threshold for use in adaptive GC sizing. The largest v
 -XX:TargetSurvivorRatio::
 young-gc之后,Survivor区域需要的百分比空间
 Sets the desired percentage of survivor space (0 to 100) used after young garbage collection. By default, this option is set to 50%.
+
+link:..\src\main\java\indi\jdk\yufr\gc\TargetSurvivorRatioGc.java[代码描述-TargetSurvivorRatioGc.java,window=_blank]
+
 
 === 担保机制
 
@@ -117,6 +118,9 @@ link:..\src\main\java\indi\jdk\yufr\gc\FinalizeEscapeGc.java[代码描述-Finali
 
 参考阅读::
 https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/considerations.html#sthref63[window=_blank]
+
+参考阅读::
+https://blog.csdn.net/qiang_zi_/article/details/100700784[JVM-优化案例-SoftRefLRUPolicyMSPerMB,window=_blank]
 
 link:..\src\main\java\indi\jdk\yufr\gc\MultiReference.java[代码描述-MultiReference.java,window=_blank]
 

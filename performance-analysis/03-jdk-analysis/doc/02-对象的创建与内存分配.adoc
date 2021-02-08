@@ -103,6 +103,9 @@ image::image/02_allocate_object_complex.png[1000,800]
 推荐阅读-对象头和对象::
 https://blog.csdn.net/lkforce/article/details/81128115[]
 
+.对象结构
+image::image/02_object_structure.jpg[800,600]
+
 .JVM(32位)中Mark Word的存储内容
 image::image/02_object_head_mark_word.jpg[800,600]
 
