@@ -89,6 +89,22 @@ image::image/01_load_class_process.png[600,400]
 相对于类的加载过程的其他阶段，加载阶段是开发期相对来说可控性比较强，该阶段既可以使用系统提供的类加载器完成，也可以由用户自定义的类加载器来完成，开发人员可以通过定义自己的类加载器去控制字节流的获取方式
 ****
 
+== 类的卸载
+
+link:..\src\main\java\indi\jdk\yufr\gc\LoadAndUnLoadClass.java[代码描述-LoadAndUnLoadClass.java,window=_blank]
+
+- 该类所有的实例都已经被回收，也就是堆中不存在该类的任何实例。
+- 加载该类的 ClassLoader 已经被回收。
+- 该类对应的 Class 对象没有在任何地方被引用，也就无法在任何地方通过反射访问该类方法。
+
+jvm-option: -Xnoclassgc 禁止类的卸载
+
+[TIP]
+====
+在大量使用反射、动态代理、CGLib 等 ByteCode 框架、动态生成 JSP 以及 OSGi 这类频繁自定义
+ClassLoader 的场景都需要虚拟机具备类卸载功能，以保证不会出现内存溢出。
+====
+
 == 双亲委托与类的加载
 
 推荐阅读-Tomcat类加载器::
@@ -107,18 +123,3 @@ https://www.cnblogs.com/xrq730/p/11440174.html[]
 
 image::image/01_tomcat_class_loader.png[800,600]
 
-=== 类的卸载
-
-link:..\src\main\java\indi\jdk\yufr\gc\LoadAndUnLoadClass.java[代码描述-LoadAndUnLoadClass.java,window=_blank]
-
-- 该类所有的实例都已经被回收，也就是堆中不存在该类的任何实例。
-- 加载该类的 ClassLoader 已经被回收。
-- 该类对应的 Class 对象没有在任何地方被引用，也就无法在任何地方通过反射访问该类方法。
-
-jvm-option: -Xnoclassgc 禁止类的卸载
-
-[TIP]
-====
-在大量使用反射、动态代理、CGLib 等 ByteCode 框架、动态生成 JSP 以及 OSGi 这类频繁自定义
-ClassLoader 的场景都需要虚拟机具备类卸载功能，以保证不会出现内存溢出。
-====
