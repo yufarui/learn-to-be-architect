@@ -85,6 +85,8 @@ https://www.cnblogs.com/july-sunny/p/12618054.html[window=_blank]
 如果大于，则此次Minor GC是安全的
 如果小于，担保机制,会提前触发一次full-gc
 
+link:..\src\main\java\indi\jdk\yufr\gc\HandlePromotion.java[代码描述-HandlePromotion.java,window=_blank]
+
 === gc-root
 
 - 虚拟机栈中局部变量表中引用的对象

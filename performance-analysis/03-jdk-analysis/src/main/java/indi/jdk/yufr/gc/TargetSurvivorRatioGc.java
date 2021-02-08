@@ -10,6 +10,7 @@ public class TargetSurvivorRatioGc {
 
     /**
      * 动态对象年龄判定测试
+     *
      * -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=15 -XX:TargetSurvivorRatio=50
      * VM args: -Xmx20m -Xms20m -Xmn10m -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+UseSerialGC
      */
