@@ -5,6 +5,7 @@ import indi.jdk.yufr.Resource;
 import java.io.IOException;
 
 /**
+ * 通过 hsdb观察对象所在内存地址
  * @date: 2021/2/2 14:24
  * @author: farui.yu
  */
