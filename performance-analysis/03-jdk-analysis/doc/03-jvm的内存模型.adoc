@@ -115,6 +115,9 @@ link:..\src\main\java\indi\jdk\yufr\gc\FinalizeEscapeGc.java[代码描述-Finali
 
 === multi-reference
 
+参考阅读::
+https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/considerations.html#sthref63[window=_blank]
+
 link:..\src\main\java\indi\jdk\yufr\gc\MultiReference.java[代码描述-MultiReference.java,window=_blank]
 
 === can not escape(无法逃逸)

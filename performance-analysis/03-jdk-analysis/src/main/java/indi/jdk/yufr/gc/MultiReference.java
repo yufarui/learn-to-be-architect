@@ -3,10 +3,13 @@ package indi.jdk.yufr.gc;
 import indi.jdk.yufr.Resource;
 
 import java.lang.ref.PhantomReference;
+import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 软引用:
@@ -29,36 +32,54 @@ public class MultiReference {
 
     private static int _1MB = 1024 * 1024;
 
-    // -Xms30m -Xmx30m -showversion -verbose:gc
-    public static void main(String[] args) {
-        putPhantomReference();
+    // -Xms30m -Xmx30m -showversion -verbose:gc -XX:SoftRefLRUPolicyMSPerMB=100
+    public static void main(String[] args) throws Exception {
+
+        Map<String, Reference> map = new HashMap<>();
+        putPhantomReference(map);
         System.gc();
+        System.out.println("phantom:" + map.get("phantom").get());
 
-        putWeakReference();
+        putWeakReference(map);
         System.gc();
+        System.out.println("weak:" + map.get("weak").get());
 
-        putSoftReference();
+        putSoftReference(map);
+        // 触发gc后soft没有被清除
+        System.gc();
+        System.out.println("soft:" + map.get("soft").get());
 
+        // 试着等待100 * 30 ms => 可以适当减少SoftRefLRUPolicyMSPerMB的值
+        Thread.sleep(100 * 30);
+        System.gc();
+        // 对象已经存活了 SoftRefLRUPolicyMSPerMB * heap(内存数值),被lru策略回收
+        System.out.println("soft:" + map.get("soft").get());
+
+        putSoftReference(map);
         List<Resource> arr = new ArrayList<>();
 
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < 22; i++) {
             arr.add(new Resource(_1MB));
         }
+        // 触发oom 同样导致soft 被回收
+        System.out.println("soft:" + map.get("soft").get());
     }
 
-    private static void putSoftReference() {
+    private static void putSoftReference(Map<String, Reference> map) {
         Resource resource = new Resource(_1MB * 4);
         SoftReference<Resource> sr = new SoftReference<>(resource);
-
+        map.put("soft", sr);
     }
 
-    private static void putWeakReference() {
+    private static void putWeakReference(Map<String, Reference> map) {
         Resource resource = new Resource(_1MB * 4);
         WeakReference<Resource> wr = new WeakReference<>(resource);
+        map.put("weak", wr);
     }
 
-    private static void putPhantomReference() {
+    private static void putPhantomReference(Map<String, Reference> map) {
         Resource resource = new Resource(_1MB * 4);
         PhantomReference<Resource> pr = new PhantomReference<>(resource, null);
+        map.put("phantom", pr);
     }
 }

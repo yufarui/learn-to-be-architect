@@ -1,5 +1,7 @@
 package indi.jdk.yufr;
 
+import java.util.Arrays;
+
 /**
  * @date: 2021/1/25 14:11
  * @author: farui.yu
@@ -35,4 +37,11 @@ public class Resource {
         new Resource(1024 * 1024);
     }
 
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
