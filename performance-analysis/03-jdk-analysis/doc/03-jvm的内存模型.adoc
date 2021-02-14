@@ -64,10 +64,13 @@ Full GC::
 
 可达性分析-依据gc-root判断当前内存对象是否为垃圾
 
-- 虚拟机栈中局部变量表中引用的对象
-- 本地方法栈中 JNI(Java Native Interface，即一般所说的Native方法) 中引用的对象
-- 方法区中类静态属性引用的对象
-- 方法区中的常量引用的对象
+- 两个栈:Java栈 和 Native 栈中所有引用的对象;
+- 两个方法区:方法区中的常量和静态变量;
+- 所有线程对象;
+- 所有跨代引用对象;
+- 和已知 GCRoots 对象同属一个CardTable 的其他对象;
+
+link:04-垃圾收集算法.adoc#Generational-Collection[垃圾收集算法#分代算法,window=_blank]
 
 link:..\src\main\java\indi\jdk\yufr\gc\GcRoot.java[代码描述-GcRoot.java,window=_blank]
 

@@ -33,7 +33,7 @@ image::image/04_gc_algorithm_markcompact.jpg[800,600]
 
 == 标记算法-三色标记法
 
-> 基础的垃圾回收算法为:标记-清除,标记-复制,标记-整理;
+基础的垃圾回收算法为:标记-清除,标记-复制,标记-整理;
 无论使用哪种算法,标记总是必要的一步;
 
 三色标记:并发执行垃圾的标记,使标记阶段不影响用户程序;
@@ -150,4 +150,23 @@ https://developer.aliyun.com/article/777750[]
 
 == 其他垃圾回收算法
 
-=== 分代算法
+[[Generational-Collection]]
+=== 分代算法[Generational-Collection]
+
+参考阅读-分代算法::
+https://www.jianshu.com/p/671495682e46[]
+
+跨代/区之间对象的引用,分代GC时需要做到不进行跨代扫描;
+
+1-跨代引用皆为gc-root,以保证分代gc时不漏标对象
+
+2-当触发跨代引用,使用写屏障,将跨代引用放入记录集
+
+image::image/04_separatarion_generation_gc_root.png[800,600]
+
+[TIP]
+====
+准确说记忆集[remebered set]为gc-root
+====
+
+=== 增量算法[increment-gc]
