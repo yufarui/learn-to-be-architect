@@ -162,7 +162,7 @@ https://www.jianshu.com/p/671495682e46[]
 
 2-当触发跨代引用,使用写屏障,将跨代引用放入记录集
 
-image::image/04_separatarion_generation_gc_root.png[800,600]
+image::image/04_generational_gc_root.png[800,600]
 
 [TIP]
 ====
