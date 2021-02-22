@@ -119,4 +119,3 @@ image::image/02_object_head_mark_word.jpg[800,600]
 
 压缩指针的示意图::
 https://gist.github.com/arturmkrtchyan/43d6135e8a15798cc46c#file-objectheader64-txt-L15[]
-/

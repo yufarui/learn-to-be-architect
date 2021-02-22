@@ -14,7 +14,7 @@ public class ThreeColorMarked {
         a.c = null;
         a.b.c = new C();
 
-        // 假定此时开始做并发标记
+        // 假定此时开始做并发标记,并且假设没有开启读写屏障
         C c = a.b.c; // 读
         // 扫描*b时,*b此时为灰色对象
         // a.b.c=null -> *b 与 *c引用断开

@@ -13,7 +13,7 @@ public class OOMOfHeap {
 
     private static int _1MB = 1024 * 1024;
 
-    // -Xms15m -Xmx15m -verbose:gc
+    // -Xms15m -Xmx15m -XX:+PrintGCDetails -showversion -XX:+PrintFlagsFinal
     public static void main(String[] args) {
         List<Resource> list = new ArrayList<>();
         while (true) {

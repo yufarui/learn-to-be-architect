@@ -27,6 +27,9 @@ image::image/03_jvm_memory_molde.png[800,600]
 jdk15-jvm-option::
 https://docs.oracle.com/en/java/javase/15/docs/specs/man/java.html[jdk15-官方文档-jvm参数,window=_blank]
 
+jdk8-developer-guide::
+https://docs.oracle.com/javase/8/docs/index.html[jdk8-官方文档,window=_blank]
+
 参考阅读-内存配置参数::
 https://cloud.tencent.com/developer/article/1406848[window=_blank]
 
@@ -67,8 +70,7 @@ Full GC::
 - 两个栈:Java栈 和 Native 栈中所有引用的对象;
 - 两个方法区:方法区中的常量和静态变量;
 - 所有线程对象;
-- 所有跨代引用对象;
-- 和已知 GCRoots 对象同属一个CardTable 的其他对象;
+- 所有跨代引用对象;和跨代对象同属一个CardTable 的其他对象;
 
 link:04-垃圾收集算法.adoc#Generational-Collection[垃圾收集算法#分代算法,window=_blank]
 
@@ -163,7 +165,7 @@ java程序启动一个新线程时，没有足够的空间为改线程分配java
 link:..src\main\java\indi\jdk\yufr\oom\StackOverFlowError.java[代码描述-StackOverFlowError,window=_blank]
 
 堆内存溢出::
-java堆用于存放对象的实例，当需要为对象的实例分配内存时，而堆的占用已经达到了设置的最大值(通过-Xmx)设置最大值，则抛出OutOfMemoryError异常。
+java堆用于存放对象的实例，当需要为对象的实例分配内存时，而堆的占用已经达到了设置的最大值(通过-Xmx)设置最大值，则抛出OutOfMemoryError异常;
 
 推荐阅读-OutofMemoryError-英文::
 https://plumbr.io/outofmemoryerror[window=_blank]

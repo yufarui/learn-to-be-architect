@@ -19,21 +19,25 @@ public class GcRoot {
     public static void main(String[] args) {
 
         method01();
+        // 栈帧中内对象失去gc-root,对象被回收
         System.gc();
+        System.out.println("第2次GC完成");
 
         // 在主栈上创建对象
         Resource stackLocal = new Resource(4 * _10MB);
         stackLocal = null;
         System.gc();
+        System.out.println("第3次GC完成");
 
         staticResource = null;
         System.gc();
+        System.out.println("第4次GC完成");
     }
 
     public static void method01() {
         System.out.println("在栈帧中创建对象");
         Resource t = new Resource(8 * _10MB);
         System.gc();
-        System.out.println("第一次GC完成");
+        System.out.println("第1次GC完成");
     }
 }

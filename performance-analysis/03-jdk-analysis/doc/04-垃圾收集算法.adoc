@@ -45,10 +45,6 @@ image::image/04_concurrent_mark.jpg[800,600]
 推荐阅读-维基百科::
 https://en.wikipedia.org/wiki/Tracing_garbage_collection[]
 
-[[tri-color-article,三色标记法与读写屏障]]
-推荐阅读-三色标记法与读写屏障::
-https://www.jianshu.com/p/12544c0ad5c1[]
-
 === 三色含义
 
 白色::
@@ -89,12 +85,25 @@ image::image/04_more_marked.png[800,600]
 
 === 漏标
 
+漏标会导致正在使用对象被清除,如果出现将是严重的灾难!
+
+#漏标的原因#
 . 黑色节点新增了对白色节点的引用
 . 灰色节点删除了对白色节点的引用
 
 link:..\src\main\java\indi\jdk\yufr\gc\ThreeColorMarked.java[代码描述-ThreeColorMarked.java,window=_blank]
 
 image::image/04_less_marked_explain.png[800,600]
+
+.关于漏标的解释
+****
+如上图,扫描完黑色节点A,开始遍历其成员变量;
+而在对B进行扫描时,并发标记时正好 B 断开了对 C 的引用,导致C不会被放到灰色集合;
+
+即使在并发阶段中 A 重新引用了 C,但因为 A 已经是黑色了,不会再重新深度遍历;
+
+最终导致的结果是:对象 C会一直停留在白色集合中;
+****
 
 [TIP]
 ====
@@ -103,24 +112,63 @@ image::image/04_less_marked_explain.png[800,600]
 漏标了几个黑色节点;
 ====
 
-漏标导致正在使用对象被清除,需要防止
+=== 漏标和读写屏障(重新标记-最终标记)
 
-=== 漏标和读写屏障(最终标记-补偿标记)
+推荐阅读-三色标记法与读写屏障::
+https://www.jianshu.com/p/12544c0ad5c1[]
 
-增量更新(Incremental Update)::
-当黑色对象插入新的指向白色对象的引用关系时,(写处理,a.c=c);
-记录此新增引用的白色节点,等并发标记结束之后,重新扫描;
+[source,c++]
+----
+void oop_field_store(oop* field, oop new_value) {  
+    pre_write_barrier(field); // 写屏障-写前操作
+    *field = new_value; 
+    post_write_barrier(field, value);  // 写屏障-写后操作
+}
+----
 
 原始快照(Snapshot At The Beginning,SATB)::
 原始快照就是当灰色对象要删除指向白色对象的引用关系时,(写处理,a.b.c=null);
 记录此删除引用的白色节点,等并发标记结束之后,重新扫描;
 
-详细内容查看<<tri-color-article>>
+[source,c++]
+----
+void pre_write_barrier(oop* field) {
+    oop old_value = *field; // 获取旧值
+    remark_set.add(old_value); // 记录 原来的引用对象
+}
+
+// SATB的优化版本
+void pre_write_barrier(oop* field) {
+  // 处于GC并发标记阶段 且 该对象没有被标记（访问）过
+  if($gc_phase == GC_CONCURRENT_MARK && !isMarkd(field)) { 
+      oop old_value = *field; // 获取旧值
+      remark_set.add(old_value); // 记录  原来的引用对象
+  }
+}
+----
+
+增量更新(Incremental Update)::
+当黑色对象插入新的指向白色对象的引用关系时,(写处理,a.c=c);
+记录此新增引用的白色节点,等并发标记结束之后,重新扫描;
+
+[source,c++]
+----
+void post_write_barrier(oop* field, oop new_value) {  
+  if($gc_phase == GC_CONCURRENT_MARK && !isMarkd(field)) {
+      remark_set.add(new_value); // 记录新引用的对象
+  }
+}
+----
+
+[TIP]
+====
+注意,写屏障都是在并发标记阶段,将对象置入到remark_set
+====
 
 [TIP]
 ====
 记忆点:
-新增->黑指白->更新引用值->在写之后操作->增量更新
+新增->黑引用白->更新引用值->在写之后操作->增量更新
 删除->灰删白->保存删除前的对象->在写前进行操作->原始快照
 ====
 
@@ -169,4 +217,16 @@ image::image/04_generational_gc_root.png[800,600]
 准确说记忆集[remebered set]为gc-root
 ====
 
-=== 增量算法[increment-gc]
+事实上并不只是新生代、 老年代之间才有跨代引用的问题， 所有涉及部分区域收集 （Partial GC） 行为的垃圾收集器,典型的如G1、 ZGC和Shenandoah收集器,都会面临相同的问题。
+
+=== cardtable
+
+Java虚拟机用了一个叫做CardTable(卡表)的数据结构来标记老年代的某一块内存区域中的对象是否持有新生代对象的引用,卡表的数量取决于老年代的大小和每张卡对应的内存大小,每张卡在卡表中对应一个byte,当老年代中的某个对象持有了新生代对象的引用时,JVM就把这个对象对应的Card所在的位置标记为dirty(bit位设置为1),这样在Minor GC时就不用扫描整个老年代,而是扫描Card为Dirty对应的那些内存区域。
+
+参考阅读-cardtable::
+https://segmentfault.com/a/1190000004682407[]
+
+参考阅读-cardtable::
+https://ezlippi.com/blog/2018/01/jvm-card-table-turning.html[]
+
+image::image/04_card_table.png[800,600]
