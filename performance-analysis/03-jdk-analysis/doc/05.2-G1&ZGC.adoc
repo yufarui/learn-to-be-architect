@@ -1,0 +1,52 @@
+= Serial&Parallel&CMS
+:doctype: article
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
+== G1
+
+推荐阅读-g1-算法::
+https://www.cnblogs.com/GrimMjx/p/12234564.html[]
+
+推荐阅读-g1-算法::
+https://blog.csdn.net/coderlius/article/details/79272773[]
+
+推荐阅读-g1-算法::
+https://plumbr.io/handbook/garbage-collection-algorithms-implementations#g1[垃圾回收算法#g1]
+
+image::image/05.2_g1_vm_modle.png[1000,800]
+
+推荐阅读-g1-RSet::
+https://www.jianshu.com/p/870abddaba41[]
+
+G1的特性
+
+. G1的设计原则是"首先收集尽可能多的垃圾(Garbage First)"。因此，G1并不会等内存耗尽(串行、并行)或者快耗尽(CMS)的时候开始垃圾收集，而是在内部采用了启发式算法，在老年代找出具有高收集收益的分区进行收集。同时G1可以根据用户设置的暂停时间目标自动调整年轻代和总堆大小，暂停目标越短年轻代空间越小、总空间就越大；
+. G1采用内存分区(Region)的思路，将内存划分为一个个相等大小的内存分区，回收时则以分区为单位进行回收，存活的对象复制到另一个空闲分区中。由于都是以相等大小的分区为单位进行操作，因此G1天然就是一种压缩方案(局部压缩)；
+. G1虽然也是分代收集器，但整个内存分区不存在物理上的年轻代与老年代的区别，也不需要完全独立的survivor(to space)堆做复制准备。G1只有逻辑上的分代概念，或者说每个分区都可能随G1的运行在不同代之间前后切换；
+. G1的收集都是STW的，但年轻代和老年代的收集界限比较模糊，采用了混合(mixed)收集的方式。即每次收集既可能只收集年轻代分区(年轻代收集)，也可能在收集年轻代的同时，包含部分老年代分区(混合收集)，这样即使堆内存很大时，也可以限制收集范围，从而降低停顿。
+
+
+=== G1垃圾收集分类
+
+YoungGC::
+YoungGC并不是说现有的Eden区放满了就会马上触发，G1会计算下现在Eden区回收大概要多久时间，如果回收时间远远小于参数-XX:MaxGCPauseMills设定的值，那么增加年轻代的region，继续给新对象存放，不会马上做Young-GC，直到下一次Eden区放满，G1计算回收时间接近参数-XX:MaxGCPauseMills设定的值，那么就会触发Young GC
+
+MixedGC::
+老年代的堆占有率达到参数(-XX:InitiatingHeapOccupancyPercent)设定的值则触发，回收所有的 Young和部分Old(根据期望的GC停顿时间确定old区垃圾收集的优先顺序)以及大对象区，正常情况G1的垃圾收集是先做MixedGC，主要使用复制算法，需要把各个region中存活的对象拷贝到别的region里去，拷贝过程中如果发现没有足够的空region能够承载拷贝对象就会触发一次Full GC 
+
+Full GC::
+停止系统程序，然后采用单线程进行标记、清理和压缩整理，好空闲出来一批Region来供下一次MixedGC使用，这 个过程是非常耗时的。(Shenandoah优化成多线程收集了)
+
+image::image/05.2_g1_gc_activities.png[1000,800]

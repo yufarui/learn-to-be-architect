@@ -1,4 +1,4 @@
-= Serial&Parallel&CMS
+= G1&ZGC
 :doctype: article
 :encoding: utf-8
 :lang: zh-cn
@@ -80,13 +80,18 @@ GC的吞吐量=程序运行时间/(程序运行时间+GC时间);
 
 和吞吐量相关的参数
 
-GCTimeRatio::
--XX:GCTimeRatio=n,(n>0,n<100,n为整数,n=99为默认值)指定垃圾收集时间占总时间的比率;
-GCTimeRatio越大,吞吐量越大;
+参考阅读-吞吐量相关参数::
+https://www.cnblogs.com/hellxz/p/14056403.html[]
 
-MaxGCPauseMillis::
--XX:MaxGCPauseMillis=n,(n>0,n为整数,单位毫秒),指定gc停顿时间;
-MaxGCPauseMillis越大,GC时间越长,吞吐量越大;
+-XX:GCTimeRatio=nnn::
+A hint to the virtual machine that it's desirable that not more than 1 / (1 + nnn) of the application execution time be spent in the collector.
+For example -XX:GCTimeRatio=19 sets a goal of 5% of the total time for GC and throughput goal of 95%. That is, the application should get 19 times as much time as the collector.
+
+By default the value is 99, meaning the application should get at least 99 times as much time as the collector. That is, the collector should run for not more than 1% of the total time. This was selected as a good choice for server applications. A value that is too high will cause the size of the heap to grow to its maximum.
+
+-XX:MaxGCPauseMillis=nnn::
+A hint to the virtual machine that pause times of nnn milliseconds or less are desired. The VM will adjust the java heap size and other GC-related parameters in an attempt to keep GC-induced pauses shorter than nnn milliseconds. Note that this may cause the VM to reduce overall throughput, and in some cases the VM will not be able to meet the desired pause time goal.
+By default there is no pause time goal. There are definite limitations on how well a pause time goal can be met. The pause time for a GC depends on the amount of live data in the heap. The minor and major collections depend in different ways on the amount of live data. This parameter should be used with caution. A value that is too small will cause the system to spend an excessive amount of time doing garbage collection.
 
 image::image/05.1_parallel_throughput.png[800,600]
 
