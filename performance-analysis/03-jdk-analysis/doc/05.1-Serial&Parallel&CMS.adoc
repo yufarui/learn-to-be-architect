@@ -109,6 +109,7 @@ image::image/05.1_cms_gc.png[1000,800]
 
 image::image/05.1_cms_gc_explain.png[1000,800]
 
+image::image/05.1_cms_gc_remark.png[800,600]
 推荐阅读-cms-算法::
 https://plumbr.io/handbook/garbage-collection-algorithms-implementations#concurrent-mark-and-sweep[垃圾回收算法#cms]
 详细说明了cms回收的6个阶段;
@@ -129,7 +130,7 @@ CMS垃圾回收的6个重要阶段::
 
 CMS的相关核心参数::
 . -XX:+UseConcMarkSweepGC:启用cms 
-. -XX:ConcGCThreads:并发的GC线程数 
+. -XX:ConcGCThreads:并发的GC线程数
 . -XX:+UseCMSCompactAtFullCollection:FullGC之后做压缩整理(减少碎片)
 . -XX:CMSFullGCsBeforeCompaction:多少次FullGC之后压缩一次,默认是0,代表每次FullGC后都会压缩一 次
 . -XX:CMSInitiatingOccupancyFraction: 当老年代使用达到该比例时会触发FullGC(默认是92,这是百分比)
