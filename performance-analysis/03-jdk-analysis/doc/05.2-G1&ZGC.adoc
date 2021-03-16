@@ -1,4 +1,4 @@
-= Serial&Parallel&CMS
+= G1&ZGC
 :doctype: article
 :encoding: utf-8
 :lang: zh-cn
@@ -119,8 +119,6 @@ top at mark start (TAMS)
 
 单次的混合收集与年轻代收集并无二致。根据暂停目标，老年代的分区可能不能一次暂停收集中被处理完，G1会发起连续多次的混合收集，称为混合收集周期(Mixed Collection Cycle)。G1会计算每次加入到CSet中的分区数量、混合收集进行次数，并且在上次的年轻代收集、以及接下来的混合收集中，G1会确定下次加入CSet的分区集(Choose CSet)，并且确定是否结束混合收集周期。
 
-image::image/05.2_g1_concurrent_mark.png[1000,800]
-
 === 相关优化参数
 
 . -XX:+UseG1GC
@@ -147,13 +145,24 @@ Sets the percentage of heap that you're willing to waste. The Java HotSpot VM do
 
 == ZGC
 
-推荐阅读-官方文档::
+=== ZGC内存布局
+
+推荐阅读-zgc
+https://www.opsian.com/blog/javas-new-zgc-is-very-exciting/
+
+推荐阅读-zgc::
+https://club.perfma.com/article/679812?type=parent&last=683965
+
+推荐阅读-wiki文档::
 https://wiki.openjdk.java.net/display/zgc[]
 
 推荐阅读-美团-zgc::
 https://tech.meituan.com/2020/08/06/new-zgc-practice-in-meituan.html[]
 
-https://wiki.openjdk.java.net/display/zgc[]
+region-based+重新分配+颜色指针+load-Barrier
+
+image::05.2_zgc_remap_flow.png[800,600]
+
 
 https://malloc.se/blog/zgc-jdk15[]
 
@@ -172,7 +181,6 @@ https://malloc.se/blog/zgc-jdk15[]
 -XX:UseNUMA
 -XX:SoftRefLRUPolicyMSPerMB
 -XX:AllocateHeapA
-
 |
 -XX:ZAllocationSpikeTolerance
 

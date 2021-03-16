@@ -1,0 +1,40 @@
+= jvm调优
+:doctype: article
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
+== jdk tool api
+
+常用命令
+[source]
+----
+# jmap查看堆信息
+jmap -histo $pid
+
+jmap -heap $pid
+
+# 堆dump
+jmap -dump:format=b,file=<application_name>.hprof $pid
+
+# 保存在本地,使用工具查看
+scp <remote_user>@<remote_ip>:<remote_dir>/<application_name>.hprof <local_dir>
+
+# 堆溢出时自动导出
+-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./
+
+# jstack查看线程信息
+jstack $pid
+
+----
+

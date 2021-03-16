@@ -1,4 +1,4 @@
-= G1&ZGC
+= Serial&Parallel&CMS
 :doctype: article
 :encoding: utf-8
 :lang: zh-cn
