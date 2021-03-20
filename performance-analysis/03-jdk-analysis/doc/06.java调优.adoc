@@ -1,4 +1,4 @@
-= jvm调优
+= java调优
 :doctype: article
 :encoding: utf-8
 :lang: zh-cn
@@ -80,6 +80,8 @@ jstat -gc $pid 最常用，可以评估程序内存使用及GC压力整体情况
 
 == arthas-开源诊断工具
 
+image::image/06_arthas.png[1200,1000]
+
 相对于 jdk-tool 更加高效
 
 arthas-官方文档::
@@ -124,6 +126,12 @@ https://arthas.aliyun.com/doc/quick-start.html[]
 # help 帮助你快速理解所有命令的含义
 help
 ----
+
+=== gc日志分析
+
+-Xloggc:./gc-%t.log
+
+gc日志与垃圾收集器相关,详细查看05篇章中不同垃圾收集器;
 
 === jvm相关
 
@@ -195,6 +203,7 @@ https://arthas.aliyun.com/doc/vmoption.html[]
 [source]
 ----
 # -XX:+PrintFlagsFinal
+# 打印jvm参数
 vmoption
 ----
 
@@ -231,7 +240,10 @@ ognl --classLoaderClass org.springframework.boot.loader.LaunchedURLClassLoader  
 通过ognl可以获取对象,然后执行方法
 
 example
+[source]
+----
 ognl -c <hashcode> <springContext>.getBean("beanName").<method()>
+----
 
 === class/classloader相关
 
