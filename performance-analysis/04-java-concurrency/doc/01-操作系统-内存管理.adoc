@@ -17,7 +17,6 @@ pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-a
 推荐阅读-内存管理::
 https://mp.weixin.qq.com/s?__biz=MzUxODAzNDg4NQ==&mid=2247485033&idx=1&sn=bf9ba7aca126ad186922c57a96928593&chksm=f98e42c3cef9cbd514df38d04deb5e7a9ea67dbd478da75fc4a7636ee90b1384d65f68eb23f5&cur_album_id=1408057986861416450&scene=190#rd[小林coding-图解操作系统-内存管理]
 
-
 == 虚拟内存地址
 
 在32位操作系统中,数据的寻址,是通过32-byte来确认的;按照32-byte数据,通过直接映射可寻找
