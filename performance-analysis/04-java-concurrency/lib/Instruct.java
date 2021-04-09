@@ -4,10 +4,12 @@
  */
 public class Instruct {
 
+    volatile int mm = 0;
+
     // javac Instruct.java
     // javap -c Instruct.class > instruct
     public int add() {
-        int i = 2;
+        int i = mm + 1;
         int j = 3;
         return i + j;
     }

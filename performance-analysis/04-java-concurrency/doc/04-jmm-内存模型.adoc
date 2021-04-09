@@ -1,0 +1,165 @@
+= java-内存模型
+:doctype: book
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
+推荐阅读-java-memory-model::
+http://www.cs.umd.edu/~pugh/java/memoryModel/
+
+== Java内存模型
+
+.jmm_base
+image::image/04_jmm_base.png[1000,800]
+
+.object_model
+image::image/04_object_model.png[1000,800]
+
+推荐阅读-jmm-cookbook::
+http://gee.cs.oswego.edu/dl/jmm/cookbook.html
+
+推荐阅读-jmm-中文版::
+http://ifeve.com/jmm-cookbook/
+
+=== data-dependency-数据依赖性
+
+如果两个操作访问同一个变量，且这两个操作中有一个为写操作，此时这两个操作之间就存在数据依赖性;
+
+.数据依赖
+[width="60%"]
+|====================
+|名称	|代码示例	|说明
+|写后读	|a = 1;b = a;	|写一个变量之后，再读这个位置。
+|写后写	|a = 1;a = 2;	|写一个变量之后，再写这个变量。
+|读后写	|a = b;b = 1;	|读一个变量之后，再写这个变量。
+|====================
+
+上面三种情况，只要重排序两个操作的执行顺序，程序的执行结果将会被改变。
+
+=== as-if-serial语义
+as-if-serial语义的意思指：不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。编译器，runtime 和处理器都必须遵守as-if-serial语义。
+
+要遵守as-if-serial,则存在数据依赖的代码,不能改变执行顺序;
+
+=== reOrder-重排序
+在遵守as-if-serial之后,没有数据依赖的代码还是可能执行重排序;
+
+image::image/04_jmm_reorder.png[800,600]
+
+link:..\src\main\java\indi\concurrency\yufr\gc\ReOrderTest.java[代码描述-ReOrderTest.java,window=_blank]
+
+参考阅读-内存模型-reorder::
+http://ifeve.com/java-memory-model-1/
+
+- 处理器级别的指令重排
+
+推荐阅读-x86-指令重排序::
+https://stackoverflow.com/questions/50307693/does-an-x86-cpu-reorder-instructions[]
+
+.常见处理器允许的重排序类型
+[width="60%"]
+|====================
+|允许重排?|Load-Load	|Load-Store	|Store-Store	|Store-Load	|数据依赖
+|sparc-TSO	|N	|N	|N	|Y	|N
+|x86	|N	|N	|N	|Y	|N
+|ia64	|Y	|Y	|Y	|Y	|N
+|PowerPC	|Y	|Y	|Y	|Y	|N
+|====================
+
+- reorder for compile and runtime 
+
+.jmm指令重排
+[width="60%"]
+|====================
+|能否重排?	3+|第二个操作
+|第一个操作	|Normal Load
+Normal Store	|Volatile load
+MonitorEnter	|Volatile store
+MonitorExit
+
+|Normal Load
+Normal Store	|  |  |No
+
+|Volatile load
+MonitorEnter	|No|No|No
+
+|Volatile store
+MonitorExit	|  |No|No
+|====================
+
+==== final
+对于final字段,下面代码无法重排序
+[source]
+====
+objectX.finalField = v;
+...
+sharedRef = objectX;
+====
+
+=== Memory-Barriers-内存屏障
+
+推荐阅读-memory-barriers::
+https://mechanical-sympathy.blogspot.com/2011/07/memory-barriersfences.html[]
+
+image::image/04_jmm_cpu_model.png[800,800]
+
+几乎所有的处理器至少支持一种粗粒度的屏障指令，通常被称为“栅栏（Fence）”，它保证在栅栏前初始化的load和store指令，能够严格有序的在栅栏后的load和store指令之前执行;
+
+.atomic-operation
+image::image/04_atomic_op.png[1000,800]
+
+代码顺序并不是真正的执行顺序，只要有空间提高性能，CPU和编译器可以进行各种优化。缓存和主存的读取会利用load, store和write-combining buffers来缓冲和重排
+
+[width="60%"]
+|====================
+|需要的屏障	4+|第二步
+|第一步	|Normal Load	|Normal Store|Volatile Load MonitorEnter	|Volatile Store MonitorExit
+|Normal Load	|	|	|	|LoadStore
+|Normal Store	|	|	|	|StoreStore
+|Volatile Load MonitorEnter	|LoadLoad	|LoadStore	|LoadLoad	|LoadStore
+|Volatile Store MonitorExit| ||StoreLoad|StoreStore
+|====================
+
+image::image/04_jmm_barriers.png[600,600]
+
+synchronized volatile 和屏障
+[source,java]
+----
+class X {
+	int a;
+	volatile int v;
+
+	void f() {
+		int i;
+		synchronized (this) { // enter EnterLoad EnterStore
+			i = a;// load a
+			a = i;// store a
+		}// LoadExit StoreExit exit ExitEnter
+
+		synchronized (this) {// enter ExitEnter
+			synchronized (this) {// enter
+			}// EnterExit exit
+		}// ExitExit exit ExitEnter ExitLoad
+
+		i = v;// load v
+
+		synchronized (this) {// LoadEnter enter
+		} // exit ExitEnter ExitStore
+
+		v = i; // store v
+		synchronized (this) { // StoreEnter enter
+		} // EnterExit exit
+	}
+
+}
+----

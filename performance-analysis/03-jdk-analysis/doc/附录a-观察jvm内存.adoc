@@ -36,7 +36,7 @@ vm-options: -Xms15m -Xmx15m -XX:+UseParallelGC -verbose:gc -showversion
 jhsdb hsdb --pid $pid
 ----
 
-image::image/04_view_object_address.jpg[1000,800]
+image::image/a_view_object_address.jpg[1000,800]
 '''
 
 结论::

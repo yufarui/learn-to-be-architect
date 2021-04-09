@@ -156,7 +156,14 @@ https://www.geeksforgeeks.org/write-through-and-write-back-in-cache/?ref=rp[writ
 参考阅读-wiki-cache::
 https://en.wikipedia.org/wiki/Cache_(computing)[]
 
+.write-back
 image::image/02_cpu_cache_write_back.png[800,600]
+
+.Write-Allocate
+image::image/02_cpu_cache_write_allocate.png[600,600]
+
+.No-Write-Allocate
+image::image/02_cpu_cache_no_write_allocate.png[600,600]
 
 === cpu核心间如何保持一致性
 
@@ -166,6 +173,9 @@ image::image/02_cpu_cache_write_back.png[800,600]
 
 === 基于总线嗅探的MESI协议
 
+推荐阅读-mesi协议::
+https://blog.csdn.net/muxiqingyang/article/details/6615199[]
+
 - Modified，已修改
 - Exclusive，独占
 - Shared，共享
@@ -173,8 +183,7 @@ image::image/02_cpu_cache_write_back.png[800,600]
 
 整个 MESI 的状态可以用一个有限状态机来表示Cache-Line的状态流转。对于不同状态触发的事件操作，可能是来自本地CPU核心发出的广播事件，也可以是来自其他 CPU核心通过总线发出的广播事件
 
-image::image/02_cpu_chache_consistency_02.png[800,600]
-
+image::image/02_cpu_chache_consistency_02.png[1000,800]
 
 === cpu-false-sharing
 
@@ -185,5 +194,10 @@ image::image/02_cpu_chache_consistency_02.png[800,600]
 .false-sharing
 image::image/02_false_sharing.png[1000,800]
 
+== 使cpu运行速度更快
 
+- 分支预测
 
+对于 if 条件语句，意味着此时至少可以选择跳转到两段不同的指令执行，也就是 if 还是 else 中的指令。那么，如果分支预测可以预测到接下来要执行 if 里的指令，还是 else 指令的话，就可以「提前」把这些指令放在指令缓存中，这样 CPU 可以直接从 Cache 读取到指令，于是执行速度就会很快。
+
+https://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array[stackoverflow-branch-prediction]
