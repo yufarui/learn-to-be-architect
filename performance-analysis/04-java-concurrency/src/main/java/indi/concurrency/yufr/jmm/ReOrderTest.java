@@ -1,7 +1,16 @@
-package indi.concurrency.yufr;
+package indi.concurrency.yufr.jmm;
 
-public class SyncReOrderTest {
+/**
+ *
+ * https://stackoverflow.com/questions/67015925/why-jmm-reorder-happened-in-this-scenarios/67067560#67067560
+ *
+ * @date: 2021/4/6 19:07
+ * @author: farui.yu
+ */
+public class ReOrderTest {
 
+    // -server -Xcomp 在server模式下尝试以 jit-即时编译模式执行代码
+    // -Xint -Xmixed 比这两个模式 ,出现重排序概率低
     public static void main(String[] args) throws Exception {
         System.out.println(System.currentTimeMillis());
         for (int i = 0; i < 500000 * 8; i++) {
@@ -20,16 +29,11 @@ public class SyncReOrderTest {
     private static class ReOrderClient {
 
         private boolean flag = false;
-        private int value = 0;
+        private volatile int value = 0;
 
-        // synchronized 内部依然会出现重排序
         private void writer() {
-            synchronized (this) {
-                // load-store
-                flag = true;
-                value = 2;
-                // store-store
-            }
+            flag = true;
+            value = 2;
         }
 
         private void reader() {

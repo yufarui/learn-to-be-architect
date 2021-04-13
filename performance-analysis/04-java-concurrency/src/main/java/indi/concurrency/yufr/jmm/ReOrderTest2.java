@@ -1,4 +1,4 @@
-package indi.concurrency.yufr;
+package indi.concurrency.yufr.jmm;
 
 /**
  * @date: 2021/4/9 17:14
@@ -7,8 +7,8 @@ package indi.concurrency.yufr;
 public class ReOrderTest2 {
     private static volatile int x = 0;
     private static volatile int y = 0;
-    private static int a = 0;
-    private static int b = 0;
+    private static volatile int a = 0;
+    private static volatile int b = 0;
 
     public static void main(String[] args) throws InterruptedException {
         int i = 0;
@@ -37,8 +37,6 @@ public class ReOrderTest2 {
             if (x == 0 && y == 0) {
                 System.err.println(result);
                 break;
-            } else {
-                System.out.println(result);
             }
         }
     }

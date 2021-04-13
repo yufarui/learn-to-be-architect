@@ -1,13 +1,7 @@
-package indi.concurrency.yufr;
+package indi.concurrency.yufr.jmm;
 
-/**
- * @date: 2021/4/6 19:07
- * @author: farui.yu
- */
-public class ReOrderTest {
+public class SyncReOrderTest {
 
-    // -server -Xcomp 在server模式下尝试以 jit-即时编译模式执行代码
-    // -Xint -Xmixed 比这两个模式 ,出现重排序概率低
     public static void main(String[] args) throws Exception {
         System.out.println(System.currentTimeMillis());
         for (int i = 0; i < 500000 * 8; i++) {
@@ -25,20 +19,17 @@ public class ReOrderTest {
 
     private static class ReOrderClient {
 
-        // normal_store then normal_store
-        // 无屏障指令-可能重排
-        // volatile_store then normal_store
-        // 无屏障指令-可能重排
-        // normal_store then volatile_store
-        // store-store屏障指令-不会重排
-        // volatile_store then volatile_store
-        // store-store屏障指令-不会重排
-        private volatile boolean flag = false;
-        private volatile int value = 0;
+        private boolean flag = false;
+        private int value = 0;
 
+        // synchronized 内部依然会出现重排序
         private void writer() {
-            flag = true;
-            value = 2;
+            synchronized (this) {
+                // load-store
+                flag = true;
+                value = 2;
+                // store-store
+            }
         }
 
         private void reader() {

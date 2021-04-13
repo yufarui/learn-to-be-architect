@@ -56,7 +56,7 @@ as-if-serial语义的意思指：不管怎么重排序（编译器和处理器�
 
 image::image/04_jmm_reorder.png[800,600]
 
-link:..\src\main\java\indi\concurrency\yufr\gc\ReOrderTest.java[代码描述-ReOrderTest.java,window=_blank]
+link:..\src\main\java\indi\concurrency\yufr\jmm\ReOrderTest.java[代码描述-ReOrderTest.java,window=_blank]
 
 参考阅读-内存模型-reorder::
 http://ifeve.com/java-memory-model-1/
@@ -163,3 +163,80 @@ class X {
 
 }
 ----
+
+=== Removing-Barriers 屏障消除
+[width="80",%autowidth,align=center]
+|====================
+3+|Original	|=>	3+|Transformed
+|1st	|ops	|2nd	|=>	|1st	|ops|2nd
+|LoadLoad	|[no loads]	|LoadLoad	|=>	
+|[no loads]	|LoadLoad
+
+|LoadLoad	|[no loads]	|StoreLoad	|=>	
+|  |[no loads]	|StoreLoad
+
+|StoreStore	|[no stores]	|StoreStore	|=>	
+|  |[no stores]	|StoreStore
+
+|StoreStore	|[no stores]	|StoreLoad	|=>	
+|  |[no stores]	|StoreLoad
+
+|StoreLoad	|[no loads]	|LoadLoad	|=>	|  |StoreLoad	|[no loads]|
+
+|StoreLoad	|[no stores]	|StoreStore	|=>	|StoreLoad	|[no stores]|
+
+|StoreLoad	|[no volatile loads]	|StoreLoad	|=>	|[no volatile loads]	|StoreLoad|
+|====================
+
+=== happens-before-order
+
+推荐阅读-jmm-reorder::
+http://ifeve.com/jvm-reordering/[]
+
+单线程内程序执行顺序,与代码顺序并不一致,但是由as-if-serial,还是能帮助单线程执行顺序,不影响执行结果;
+
+volatile-synchronized中所描述的屏障,并不一定内保证,单线程内的执行顺序严格执行;
+
+happens-before 是用来描述可见性的一种规则;
+actionA happens-before ActionB，记作hb(ActionA,ActionB) 等价于 ActionA < ActionB
+简记为 hb(a,b);
+
+[width="60%"]
+|====================
+|Thread1|Thread2
+|x1|y1
+|x2|b
+|a|y2
+|====================
+
+如果 Thread1 中a操作已经在b操作之前发生,则a及之前操作都对Thread2 b及之后操作保持可见性;
+
+推荐阅读-happens-before::
+http://ifeve.com/easy-happens-before/[]
+
+. 程序次序规则
+同一线程内,若a在b之前执行,则有hb(a,b)
+
+. 锁定规则
+unLock操作 happens-before 同锁的lock操作；
+
+. volatile变量规则
+volatile-write happens-before volatile-load
+
+. 传递规则
+If hb(x, y) and hb(y, z), then hb(x, z).
+
+. 线程启动规则
+线程start()之前的共享变量,对线程可见;
+
+. 线程中断规则
+若线程捕获到中断信号，其必先执行 interrupt()方法
+
+. 对象init-finalize规则
+对象的构造方法 happens-before 对象的finalize()
+link:..\src\main\java\indi\concurrency\yufr\jmm\InterruptTest.java[代码描述-InterruptTest.java,window=_blank]
+
+. 线程终结规则
+线程的所有行为都优于线程的终结(join)
+
+
