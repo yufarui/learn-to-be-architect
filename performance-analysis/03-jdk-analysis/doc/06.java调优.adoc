@@ -396,7 +396,7 @@ https://arthas.aliyun.com/doc/trace.html[]
 trace <class> <method>
 ----
 
-====
+==== tt
 
 [source]
 ----
@@ -411,10 +411,29 @@ tt -t <class> <method> -n 20
 删除时光隧道列表 tt --delete-all
 ----
 
-
 ==== async-profiler
 
 [source]
 ----
-profiler start --event cpu --interval 10000000 --format svg -duration 100
+profiler start --event cpu --format svg -duration 100
 ----
+
+== jprofiler-诊断工具
+
+jprofiler 具有图形界面,很容易使用;不过 需要知道一定的名词,才能调试的更清楚;
+
+- incoming-references
+当前对象的外部引用对象
+
+- outgoing-references
+当前对象的引用对象
+英文-还是很贴切,很容易理解
+
+- Shallow size
+就是对象本身占用内存的大小
+
+- Retained size
+该对象能访问到对象的shallow-size之和(包括自己)
+
+Shallow Size and Retained Size::
+https://blog.csdn.net/kingzone_2008/article/details/9083327[]

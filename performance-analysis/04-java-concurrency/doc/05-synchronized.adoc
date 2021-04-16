@@ -1,0 +1,30 @@
+= synchronized
+:doctype: book
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
+== synchronized-使用
+
+运行时对象头锁状态分析工具JOL，他是OpenJDK开源工具包，引入下方maven依赖
+[source,xml]
+----
+<dependency>
+    <groupId>org.openjdk.jol</groupId>
+    <artifactId>jol-core</artifactId>
+    <version>0.15</version>
+</dependency>
+----
+
+link:..\src\main\java\indi\concurrency\yufr\sync\InspectObjectHeader.java[代码描述-InspectObjectHeader.java,window=_blank]
+

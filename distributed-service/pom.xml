@@ -12,7 +12,8 @@
     <artifactId>distributed-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>01-redies</module>
+        <module>00-network</module>
+        <module>01-redis</module>
     </modules>
 
 </project>

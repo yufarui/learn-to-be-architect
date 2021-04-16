@@ -33,7 +33,7 @@ public class SyncReOrderTest {
         }
 
         private void reader() {
-            if (!flag && value == 2) {
+            if (value == 2 && !flag) {
                 System.out.println(System.currentTimeMillis());
                 System.out.println("发生了重排序, client.value=" + value);
             }

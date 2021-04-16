@@ -5,10 +5,13 @@ package indi.concurrency.yufr.jmm;
  * @author: farui.yu
  */
 public class ReOrderTest2 {
+
+    // normal-write normal-read causes reorder
+    // a=1, read b; b=1, read a;
     private static volatile int x = 0;
     private static volatile int y = 0;
-    private static volatile int a = 0;
-    private static volatile int b = 0;
+    private static int a = 0;
+    private static int b = 0;
 
     public static void main(String[] args) throws InterruptedException {
         int i = 0;

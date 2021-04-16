@@ -29,6 +29,9 @@ link:..\src\main\java\indi\jdk\yufr\tool\InspectVM.java[代码描述-InspectVM.j
 
 [source]
 ----
+# jdk8,使用方式
+java -cp ./sa-jdi.jar sun.jvm.hotspot.HSDB
+
 # 本文环境:使用jdk-15,hsdb观察数据地址
 vm-options: -Xms15m -Xmx15m -XX:+UseParallelGC -verbose:gc -showversion
 

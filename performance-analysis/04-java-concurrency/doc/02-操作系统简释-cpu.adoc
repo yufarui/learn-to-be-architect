@@ -201,3 +201,10 @@ image::image/02_false_sharing.png[1000,800]
 对于 if 条件语句，意味着此时至少可以选择跳转到两段不同的指令执行，也就是 if 还是 else 中的指令。那么，如果分支预测可以预测到接下来要执行 if 里的指令，还是 else 指令的话，就可以「提前」把这些指令放在指令缓存中，这样 CPU 可以直接从 Cache 读取到指令，于是执行速度就会很快。
 
 https://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array[stackoverflow-branch-prediction]
+
+[TIP]
+====
+求和的过程中消除分支策略:
+~0&a=0
+-1&a=a
+====
