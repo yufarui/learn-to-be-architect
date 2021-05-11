@@ -1,0 +1,28 @@
+= redis安装与使用
+:doctype: book
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
+== redis的安装
+
+推荐阅读-redis-quickstart::
+https://redis.io/topics/quickstart[]
+
+yufarui.additor-个人笔记::
+https://yufarui.additor.io/page/avD5QDtEry5g/addit/oYjMWYHjRO[关于redis的笔记]
+
+按照个人笔记,可以安装完成redis集群;
+若机器数量不足,可直接使用redis/utils/create-cluster 下脚本,创建redis集群
+
+== redession的使用

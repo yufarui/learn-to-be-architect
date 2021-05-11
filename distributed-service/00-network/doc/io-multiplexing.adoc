@@ -14,6 +14,7 @@
 
 pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
 
+
 参考阅读-io::
 https://journey-c.github.io/io-multiplexing/#25-io-multiplexing[]
 
@@ -36,9 +37,17 @@ image::image/io_nonblock.jpeg[]
 
 image::image/io_async.jpeg[]
 
+
 小明(application)去食堂窗口(kernel)打饭(read);窗口(kernel)给了小明一张票,等数据准备好了,再喊小明;
 
 == io-multiplexing
 
 image::image/io_multi.jpeg[]
 
+食堂(kernel)开设了多个窗口,提供了很多饭菜(fd 全部注册到内核);小明(application)去食堂(kernel),小明可以只关注自己喜欢的菜品(感兴趣的事件)去轮询(select,poll,epoll)打饭(事件处理);
+
+== C10K-问题
+
+C10K-create 10K-创建1万个进程,以满足服务器TCP连接;I/O多路复用解决了C10K
+参考阅读-C10K::
+https://blog.csdn.net/wangtaomtk/article/details/51811011[]
