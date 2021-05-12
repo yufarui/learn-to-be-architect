@@ -21,9 +21,6 @@ import javax.annotation.Resource;
 @SpringBootTest(classes = {RedisApp.class})
 public class RedisTest {
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
-
     @Resource(name="stringRedisTemplate")
     private ValueOperations<String, String> stringValueOperations;
 
