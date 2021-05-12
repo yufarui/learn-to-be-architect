@@ -11,7 +11,7 @@
 
     <artifactId>biz-template</artifactId>
     <properties>
-        <spring-boot-version>2.1.13.RELEASE</spring-boot-version>
+        <spring-boot-version>2.3.8.RELEASE</spring-boot-version>
         <h2.version>1.4.200</h2.version>
         <liquibase.version>3.9.0</liquibase.version>
         <javassist.version>3.24.0-GA</javassist.version>
