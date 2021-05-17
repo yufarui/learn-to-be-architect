@@ -10,7 +10,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <compile.version>1.8</compile.version>
         <spring-boot-version>2.3.8.RELEASE</spring-boot-version>
+        <application.initialMemorySize>100M</application.initialMemorySize>
+        <application.maxMemorySize>1024M</application.maxMemorySize>
+        <application.maxMetaspaceSize>512M</application.maxMetaspaceSize>
     </properties>
 
     <modules>
