@@ -25,4 +25,6 @@ https://yufarui.additor.io/page/avD5QDtEry5g/addit/oYjMWYHjRO[关于redis的笔�
 按照个人笔记,可以安装完成redis集群;
 若机器数量不足,可直接使用redis/utils/create-cluster 下脚本,创建redis集群
 
-== redession的使用
+== spring-data-redis的使用
+
+参考01-redis项目

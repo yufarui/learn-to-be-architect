@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: simple-redis
   redis:
     cluster:
       nodes:
