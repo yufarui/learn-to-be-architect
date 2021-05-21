@@ -1,9 +1,8 @@
 package indi.yufr.redis.config;
 
-import indi.yufr.redis.service.Person;
+import indi.yufr.redis.model.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +22,6 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer.Stre
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
-import java.time.Duration;
 import java.util.Collections;
 
 /**
@@ -41,12 +39,6 @@ public class StreamListenerConfig implements ApplicationListener<ApplicationStar
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
-    @Bean
-    public RedisConverter redisConverter(RedisMappingContext mappingContext) {
-        mappingContext.setInitialEntitySet(Collections.singleton(Person.class));
-        return new MappingRedisConverter(mappingContext);
-    }
 
     @Bean
     public ObjectHashMapper hashMapper(RedisConverter converter) {

@@ -1,6 +1,8 @@
 spring:
   application:
     name: simple-redis
+    profiles:
+      active: h2
   redis:
     cluster:
       nodes:
@@ -10,3 +12,15 @@ spring:
         - 10.253.48.213:6380
         - 10.253.48.214:6379
         - 10.253.48.214:6380
+
+---
+spring:
+  profiles: h2
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;MODE=Mysql;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    username: sa
+    password: sa
+  h2:
+    console:
+      enabled: true

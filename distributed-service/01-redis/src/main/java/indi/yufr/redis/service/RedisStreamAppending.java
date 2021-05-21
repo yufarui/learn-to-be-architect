@@ -1,5 +1,6 @@
 package indi.yufr.redis.service;
 
+import indi.yufr.redis.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Range;
 import org.springframework.data.redis.connection.stream.*;
@@ -45,16 +46,16 @@ public class RedisStreamAppending {
         }
     }
 
-    public void xadd2(String firstName, String lastName) {
+    public void xadd2(String id, String name) {
 
         ObjectRecord<String, Person> record = StreamRecords.newRecord()
                 .in("my-stream")
-                .ofObject(new Person(firstName, lastName));
+                .ofObject(new Person(id, name));
 
-        // XADD my-stream * "_class" "indi.yufr.redis.service.Person" "firstName" "farui" "lastName" "yu"
+        // XADD my-stream * "_class" "indi.yufr.redis.service.Person" "id" "farui" "name" "yu"
         // stringRedisTemplate.opsForStream().add(record);
 
-        // XADD my-stream * "firstName" "farui"  "lastName" "yu" "@class" "indi.yufr.redis.service.Person"
+        // XADD my-stream * "id" "farui"  "name" "yu" "@class" "indi.yufr.redis.service.Person"
         stringRedisTemplate.opsForStream(new Jackson2HashMapper(true)).add(record);
     }
 

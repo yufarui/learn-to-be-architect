@@ -32,7 +32,7 @@ public class RedisStreamTest {
 
     @Test
     public void xaddTest() {
-        redisStreamAppending.xadd("name-2", "yufr-2");
+        redisStreamAppending.xadd("xadd-test", "yufr-2");
 
     }
 
@@ -41,7 +41,7 @@ public class RedisStreamTest {
      */
     @Test
     public void xadd2Test() {
-        redisStreamAppending.xadd2("farui", "yu");
+        redisStreamAppending.xadd2("xadd2-test", "yu");
     }
 
     @Test
@@ -66,7 +66,7 @@ public class RedisStreamTest {
      */
     @Test
     public void xreadGroupTest() {
-        redisStreamAppending.xadd("farui", "yu");
+        redisStreamAppending.xadd("xadd-test", "yu");
 
         System.out.println("====第一次消费====");
         redisStreamConsuming.xreadGroup();
@@ -79,7 +79,7 @@ public class RedisStreamTest {
     @Test
     public void xreadGroup2Test() {
         System.out.println("====xadd2====");
-        redisStreamAppending.xadd2("farui", "yu");
+        redisStreamAppending.xadd2("xadd2-test", "yu");
         System.out.println("====xreadGroup2====");
         redisStreamConsuming.xreadGroup2();
     }

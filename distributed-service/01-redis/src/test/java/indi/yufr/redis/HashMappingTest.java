@@ -1,7 +1,7 @@
 package indi.yufr.redis;
 
 import indi.yufr.redis.service.HashMapping;
-import indi.yufr.redis.service.Person;
+import indi.yufr.redis.model.Person;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,9 @@ public class HashMappingTest {
 
     @Test
     public void hashMapping() {
-        hashMapping.writeHash("person:1", new Person("farui", "yu"));
+        hashMapping.writeHash("person:1", new Person("hash-map-1", "yu"));
         Person person = hashMapping.loadHash("person:1");
-        System.out.println(person.getFirstName());
-        System.out.println(person.getLastName());
+        System.out.println(person.getId());
+        System.out.println(person.getName());
     }
 }

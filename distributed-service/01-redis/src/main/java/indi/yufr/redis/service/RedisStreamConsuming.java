@@ -1,5 +1,6 @@
 package indi.yufr.redis.service;
 
+import indi.yufr.redis.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.stream.*;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -36,8 +37,8 @@ public class RedisStreamConsuming {
                 .read(Person.class, StreamOffset.fromStart("my-stream"));
 
         for (int i = 0; i < read.size(); i++) {
-            System.out.println(read.get(i).getValue().getFirstName());
-            System.out.println(read.get(i).getValue().getLastName());
+            System.out.println(read.get(i).getValue().getId());
+            System.out.println(read.get(i).getValue().getName());
         }
     }
 
@@ -67,8 +68,8 @@ public class RedisStreamConsuming {
                         StreamOffset.create("my-stream", ReadOffset.lastConsumed()));
 
         for (int i = 0; i < read.size(); i++) {
-            System.out.println(read.get(i).getValue().getFirstName());
-            System.out.println(read.get(i).getValue().getLastName());
+            System.out.println(read.get(i).getValue().getId());
+            System.out.println(read.get(i).getValue().getName());
         }
     }
 }

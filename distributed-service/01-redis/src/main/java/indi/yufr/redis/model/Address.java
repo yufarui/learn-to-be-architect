@@ -1,17 +1,17 @@
-package indi.yufr.redis.service;
+package indi.yufr.redis.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @date: 2021/5/14 11:04
+ * @date: 2021/5/21 9:21
  * @author: farui.yu
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Person {
-    String firstName;
-    String lastName;
+@NoArgsConstructor
+public class Address {
+
+    private String city;
 }

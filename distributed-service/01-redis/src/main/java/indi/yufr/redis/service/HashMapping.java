@@ -1,5 +1,6 @@
 package indi.yufr.redis.service;
 
+import indi.yufr.redis.model.Person;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.hash.BeanUtilsHashMapper;
 import org.springframework.stereotype.Component;
