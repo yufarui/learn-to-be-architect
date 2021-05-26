@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: 02-rocket-mq
+
+# 查阅rocketmq的spring-configuration-metadata.json
+rocketmq:
+  name-server: 1.117.46.141:9876
+  producer:
+    group: yufr-producer
+    # 由于机器性能差,超时时间需要放大
+    sendMessageTimeout: 600000
+  consumer:
+    group: yufr-consumer
+    topic: test-topic-3

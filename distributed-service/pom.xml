@@ -14,6 +14,7 @@
     <modules>
         <module>00-network</module>
         <module>01-redis</module>
+        <module>02-rocketmq</module>
     </modules>
 
 </project>

@@ -1,0 +1,35 @@
+= rocketmq安装与使用
+:doctype: book
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
+== rocketmq安装
+
+rocketmq-quickstart::
+https://redis.io/topics/quickstart[]
+
+推荐阅读-rocketmq-理解::
+https://github.com/apache/rocketmq/tree/master/docs/cn
+
+yufarui.additor-个人笔记::
+https://yufarui.additor.io/page/YLMop9IApL4Q[rocketmq-下载-安装]
+
+== 客服端的使用
+
+按照官方推荐使用rocketmq-spring-starter
+
+https://github.com/apache/rocketmq-spring
+
+使用手册::
+https://github.com/apache/rocketmq-spring/wiki
