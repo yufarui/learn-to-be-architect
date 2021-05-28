@@ -21,9 +21,13 @@ public class SendMessageTest {
     private ProducerService producerService;
 
     @Test
-    public void sendMessage() {
-        producerService.convertAndSend();
+    public void sendMessage() throws Exception {
+//        producerService.convertAndSend();
 //        producerService.send();
 //        producerService.asyncSend();
+//        producerService.transSend();
+        producerService.requestString();
+//        producerService.requestObject();
+        Thread.sleep(5000);
     }
 }

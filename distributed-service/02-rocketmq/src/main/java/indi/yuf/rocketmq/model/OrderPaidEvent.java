@@ -21,4 +21,7 @@ public class OrderPaidEvent implements Serializable {
     private String orderId;
 
     private BigDecimal paidMoney;
+
+    private String localDateTime;
+
 }

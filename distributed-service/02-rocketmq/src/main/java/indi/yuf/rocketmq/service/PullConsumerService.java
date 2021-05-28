@@ -12,7 +12,7 @@ import java.util.List;
  * @date: 2021/5/26 16:54
  * @author: farui.yu
  */
-@Service
+//@Service
 @Slf4j
 public class PullConsumerService implements CommandLineRunner {
 

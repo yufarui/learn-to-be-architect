@@ -9,6 +9,8 @@ rocketmq:
     group: yufr-producer
     # 由于机器性能差,超时时间需要放大
     sendMessageTimeout: 600000
+    # 信息轨迹 默认是开启的
+    customized-trace-topic: my-trace-topic
   consumer:
     group: yufr-consumer
     topic: test-topic-3
