@@ -22,7 +22,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Inherited
 public @interface StartAndEndDate {
 
-    String message() default "{com.kingstar.exposure.validator.StartAndEndDate.message}";
+    String message() default "{indi.biz.yufr.validator.StartAndEndDate.message}";
 
     Class<?>[] groups() default {};
 
