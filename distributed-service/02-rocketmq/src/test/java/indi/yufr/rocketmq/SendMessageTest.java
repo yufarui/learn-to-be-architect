@@ -22,11 +22,11 @@ public class SendMessageTest {
 
     @Test
     public void sendMessage() throws Exception {
-//        producerService.convertAndSend();
+        producerService.convertAndSend();
 //        producerService.send();
 //        producerService.asyncSend();
 //        producerService.transSend();
-        producerService.requestString();
+//        producerService.requestString();
 //        producerService.requestObject();
         Thread.sleep(5000);
     }

@@ -36,9 +36,11 @@ public class TransactionListener implements RocketMQLocalTransactionListener {
         try {
             log.info("开始执行本地事物[{}]", txId);
 
+            int i = 1 / 0;
             // 执行 本服务对应 数据库操作
             // 执行 txId 的记录
         } catch (Exception e) {
+            log.warn("事物回滚,事物消息删除,事物消息也无法被消费");
             return RocketMQLocalTransactionState.ROLLBACK;
         }
 

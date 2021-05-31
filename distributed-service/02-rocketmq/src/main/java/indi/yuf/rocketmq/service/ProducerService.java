@@ -82,9 +82,10 @@ public class ProducerService {
         rocketMQTemplate.sendMessageInTransaction("test-topic-2", event, "order");
 
         // 若考虑为分布式事物
-        // a.向 ${service}(如订单) 服务发起半事物消息
-        // b.向 ${service}(如积分) 服务发起半事物消息
-        // 在transactionMQListener中真正执行事物,并提交事物状态
+        // 1.向 ${service}(如订单) 服务发起半事物消息
+        // 2.在transactionMQListener中真正执行事物,并提交事物状态
+        // 3.1.若事物执行成功,则事物信息可以被消费段消费
+        // 3.2.若事物回滚,事物消息删除,没法被消费
 
     }
 
