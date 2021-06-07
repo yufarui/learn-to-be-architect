@@ -17,7 +17,7 @@ pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-a
 == rocketmq安装
 
 rocketmq-quickstart::
-https://redis.io/topics/quickstart[]
+https://rocketmq.apache.org/docs/quick-start/[]
 
 推荐阅读-rocketmq-理解::
 https://github.com/apache/rocketmq/tree/master/docs/cn

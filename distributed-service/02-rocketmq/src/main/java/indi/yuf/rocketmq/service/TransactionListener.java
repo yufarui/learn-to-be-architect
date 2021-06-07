@@ -14,7 +14,7 @@ import org.springframework.messaging.Message;
  * @date: 2021/5/28 9:14
  * @author: farui.yu
  */
-@RocketMQTransactionListener
+//@RocketMQTransactionListener
 @Slf4j
 public class TransactionListener implements RocketMQLocalTransactionListener {
 
