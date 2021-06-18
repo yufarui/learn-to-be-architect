@@ -8,10 +8,23 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class NIOServer {
 
-    //public static ExecutorService pool = Executors.newFixedThreadPool(10);
+    private static int size = Runtime.getRuntime().availableProcessors();
+    private static ExecutorService workGroupExecutor = new ThreadPoolExecutor(
+            2 * size, 2 * size + 1,
+            0, TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>(1024),
+            r -> {
+                Thread thread = new Thread(r);
+                thread.setDaemon(true);
+                thread.setName("nio.server.worker");
+                return thread;
+            });
 
     public static void main(String[] args) throws IOException {
         // 创建一个在本地端口进行监听的服务Socket通道.并设置为非阻塞方式
@@ -35,22 +48,29 @@ public class NIOServer {
                 SelectionKey key = it.next();
                 //删除本次已处理的key，防止下次select重复处理
                 it.remove();
-                handle(key);
+                if (key.isAcceptable()) {
+                    acceptHandle(key);
+                } else {
+                    rwHandle(key);
+                }
+
             }
         }
     }
 
-    private static void handle(SelectionKey key) throws IOException {
-        if (key.isAcceptable()) {
-            System.out.println("有客户端连接事件发生了。。");
-            ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
-            //NIO非阻塞体现：此处accept方法是阻塞的，但是这里因为是发生了连接事件，所以这个方法会马上执行完，不会阻塞
-            //处理完连接请求不会继续等待客户端的数据发送
-            SocketChannel sc = ssc.accept();
-            sc.configureBlocking(false);
-            //通过Selector监听Channel时对读事件感兴趣
-            sc.register(key.selector(), SelectionKey.OP_READ);
-        } else if (key.isReadable()) {
+    private static void acceptHandle(SelectionKey key) throws IOException {
+        System.out.println("有客户端连接事件发生了。。");
+        ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
+        //NIO非阻塞体现：此处accept方法是阻塞的，但是这里因为是发生了连接事件，所以这个方法会马上执行完，不会阻塞
+        //处理完连接请求不会继续等待客户端的数据发送
+        SocketChannel sc = ssc.accept();
+        sc.configureBlocking(false);
+        //通过Selector监听Channel时对读事件感兴趣
+        sc.register(key.selector(), SelectionKey.OP_READ);
+    }
+
+    private static void rwHandle(SelectionKey key) throws IOException {
+        if (key.isReadable()) {
             System.out.println("有客户端数据可读事件发生了。。");
             SocketChannel sc = (SocketChannel) key.channel();
             ByteBuffer buffer = ByteBuffer.allocate(1024);

@@ -32,3 +32,28 @@ Reactor 模式，通过一个或多个输入同时传递给服务处理器的模
 
 === 单Reactor单线程
 
+image::image/01_single_reactor.png[800,600]
+
+存在的问题
+
+. 多线程数据共享和访问比较复杂，reactor处理所有的事件的监听和响应，在单线程运行，在高并发场景容易出现性能瓶颈
+
+=== 主从Reactor模型
+
+image::image/01_main_sub_reactor.png[]
+
+
+优点:
+
+. MainReactor 线程与 SubReactor线程的数据交互简单职责明确，MainReactor线程只需要接收新连接，SubReactor线程完成后续的业务处理
+
+. MainReactor 线程与 SubReactor线程的数据交互简单，MainReactor线程只需要把新连接传给SubReactor线程，SubReactor 线程无需返回数据
+
+. 多个 SubReactor 线程能够应对更高的并发请求
+
+缺点:
+
+这种模式的缺点是编程复杂度较高。但是由于其优点明显，在许多项目中被广泛使用，包括Nginx、Memcached、Netty 等。这种模式也被叫做服务器的1+M+N线程模式，即使用该模式开发的服务器包含一个（或多个，1只是表示相对较少）连接建立线程+M 个 IO 线程+N 个业务处理线程。这是业界成熟的服务器程序设计模式。
+
+
+== netty的线程模型

@@ -76,7 +76,7 @@ public class NioClient {
                 } else if (key.isReadable()) {
                     read(key);
                 }else if (key.isWritable()) {
-                    if(messageSendCount.get() >= 3){
+                    if(messageSendCount.get() > 3){
                         break;
                     }
                     write(key);
