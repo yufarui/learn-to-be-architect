@@ -40,8 +40,8 @@ jstack $pid
 top -H -p <pid>
 # 使用 -H 查看threads 找到cpu使用率高的线程
 # 将线程的pid,转换为16进制,
-# 如进程的pid为4466,线程的pid为4467,4467=>0x1173
-jstack 4466 | grep -A 10 4467
+# 如进程的pid为19727,线程的pid为19931,19931=>0x4ddb
+jstack 19727 | grep -A 10 4ddb
 # 此命令查看此线程运行详情
 
 # jinfo,查看应用程序的扩展参数
