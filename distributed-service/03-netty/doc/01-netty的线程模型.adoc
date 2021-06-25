@@ -57,3 +57,14 @@ image::image/01_main_sub_reactor.png[]
 
 
 == netty的线程模型
+
+
+link:..\src\main\java\indi\netty\yufr\netty\base\NettyServer.java[代码描述-NettyServer.java,window=_blank]
+link:..\src\main\java\indi\netty\yufr\netty\base\NettyClient.java[代码描述-NettyClient.java,window=_blank]
+
+image::image/01_netty_reactor.png[]
+
+
+== netty中的NioEventLoop
+netty最核心的就是reactor线程;而和reactor(分发)对应,netty中使用了广泛的NioEventLoop;我们先来研究下;
+
