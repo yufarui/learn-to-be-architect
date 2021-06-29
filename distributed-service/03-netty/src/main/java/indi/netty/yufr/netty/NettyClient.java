@@ -1,4 +1,4 @@
-package indi.netty.yufr.netty.base;
+package indi.netty.yufr.netty;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
