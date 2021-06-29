@@ -14,7 +14,7 @@
 
 pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
 
-= jad -c 编译失败
+== jad -c 命令编译失败
 
 问题描述::
 通过 jad -c <class> 命令,虽然打印了classLoader和Location信息,但源码为null
