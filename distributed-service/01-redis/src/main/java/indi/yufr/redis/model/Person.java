@@ -1,5 +1,6 @@
 package indi.yufr.redis.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Person {
-    String id;
-    String name;
+    private String id;
+    private String name;
+
+    @JsonProperty("nick_name")
+    private String nickName;
+
+    public Person(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

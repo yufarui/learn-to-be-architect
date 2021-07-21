@@ -37,7 +37,7 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
                         // 空闲检测
-                        ch.pipeline().addLast(new IMIdleStateHandler());
+//                        ch.pipeline().addLast(new IMIdleStateHandler());
 
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
@@ -57,7 +57,7 @@ public class NettyServer {
                         // 登出请求处理器
                         ch.pipeline().addLast(LogoutRequestHandler.INSTANCE);
 
-                        ch.pipeline().addLast(IMHandler.INSTANCE);
+//                        ch.pipeline().addLast(IMHandler.INSTANCE);
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });

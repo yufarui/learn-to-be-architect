@@ -1,20 +1,20 @@
 package indi.netty.yufr.chat.server.handler;
 
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
 import indi.netty.yufr.chat.protocol.request.LoginRequestPacket;
 import indi.netty.yufr.chat.protocol.response.LoginResponsePacket;
 import indi.netty.yufr.chat.session.Session;
 import indi.netty.yufr.chat.util.IDUtil;
 import indi.netty.yufr.chat.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Date;
 
 @ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
-    public static final indi.netty.yufr.chat.server.handler.LoginRequestHandler INSTANCE = new indi.netty.yufr.chat.server.handler.LoginRequestHandler();
+    public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
 
     protected LoginRequestHandler() {
     }

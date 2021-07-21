@@ -16,7 +16,7 @@ import java.util.List;
 
 @ChannelHandler.Sharable
 public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<CreateGroupRequestPacket> {
-    public static final indi.netty.yufr.chat.server.handler.CreateGroupRequestHandler INSTANCE = new indi.netty.yufr.chat.server.handler.CreateGroupRequestHandler();
+    public static final CreateGroupRequestHandler INSTANCE = new CreateGroupRequestHandler();
 
     private CreateGroupRequestHandler() {
 

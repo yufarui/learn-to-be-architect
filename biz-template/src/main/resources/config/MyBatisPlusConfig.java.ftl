@@ -23,7 +23,7 @@ public class MyBatisPlusConfig {
      * 新的分页插件,一缓和二缓遵循mybatis的规则,需要设置 MybatisConfiguration#useDeprecatedExecutor = false 避免缓存出现问题
      */
     @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor(@Value("${spring.profiles.active}") String profile) {
+    public MybatisPlusInterceptor mybatisPlusInterceptor(@Value("{spring.profiles.active}") String profile) {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         if (profile.contains(DbType.MYSQL.getDb())) {
             interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));

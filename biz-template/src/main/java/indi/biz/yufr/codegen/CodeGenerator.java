@@ -158,7 +158,7 @@ public class CodeGenerator {
         PackageConfig pc = new PackageConfig();
         // pc.setModuleName(scanner("模块名"));
         pc.setModuleName("");
-        pc.setParent("indi.biz.yufr");
+        pc.setParent(CodeConstant.BASE_PACKAGE);
         return pc;
     }
 

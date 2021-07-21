@@ -11,7 +11,7 @@ import indi.netty.yufr.chat.util.SessionUtil;
 
 @ChannelHandler.Sharable
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
-    public static final indi.netty.yufr.chat.server.handler.MessageRequestHandler INSTANCE = new indi.netty.yufr.chat.server.handler.MessageRequestHandler();
+    public static final MessageRequestHandler INSTANCE = new MessageRequestHandler();
 
     private MessageRequestHandler() {
 

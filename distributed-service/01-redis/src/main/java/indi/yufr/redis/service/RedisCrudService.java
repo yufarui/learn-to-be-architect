@@ -29,7 +29,6 @@ public class RedisCrudService {
         // hgetall person:rand
         log.info("rand in redis {}", repo.findById(rand.getId()));
 
-        //
         log.info("person in redis count, [{}]", repo.count());
 
 //        repo.deleteById(rand.getId());
