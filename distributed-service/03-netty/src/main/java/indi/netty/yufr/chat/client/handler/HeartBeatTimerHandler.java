@@ -21,7 +21,7 @@ public class HeartBeatTimerHandler extends ChannelInboundHandlerAdapter {
         ctx.executor().schedule(() -> {
 
             if (ctx.channel().isActive()) {
-                ctx.writeAndFlush(new HeartBeatRequestPacket());
+                ctx.channel().writeAndFlush(new HeartBeatRequestPacket());
                 scheduleSendHeartBeat(ctx);
             }
 

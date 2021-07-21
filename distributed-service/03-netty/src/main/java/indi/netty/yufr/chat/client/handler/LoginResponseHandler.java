@@ -25,4 +25,10 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
     public void channelInactive(ChannelHandlerContext ctx) {
         System.out.println("客户端连接被关闭!");
     }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        super.channelReadComplete(ctx);
+        System.out.println("LoginResponseHandler read complete");
+    }
 }

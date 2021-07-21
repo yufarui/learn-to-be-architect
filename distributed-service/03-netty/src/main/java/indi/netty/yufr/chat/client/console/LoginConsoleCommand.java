@@ -1,9 +1,7 @@
 package indi.netty.yufr.chat.client.console;
 
-import indi.netty.yufr.chat.session.Session;
-import indi.netty.yufr.chat.util.SessionUtil;
-import io.netty.channel.Channel;
 import indi.netty.yufr.chat.protocol.request.LoginRequestPacket;
+import io.netty.channel.Channel;
 
 import java.util.Scanner;
 
@@ -20,7 +18,6 @@ public class LoginConsoleCommand implements ConsoleCommand {
         // 发送登录数据包
         channel.writeAndFlush(loginRequestPacket);
         waitForLoginResponse();
-        SessionUtil.bindSession(new Session(loginRequestPacket.getUserName(), loginRequestPacket.getUserName()), channel);
     }
 
     private static void waitForLoginResponse() {

@@ -38,7 +38,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         }
 
         // 登录响应
-        ctx.writeAndFlush(loginResponsePacket);
+        ctx.channel().writeAndFlush(loginResponsePacket);
     }
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
@@ -48,5 +48,11 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         SessionUtil.unBindSession(ctx.channel());
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        super.channelReadComplete(ctx);
+        System.out.println("LoginRequestHandler read complete");
     }
 }
