@@ -75,8 +75,8 @@ public class NioClient {
                     channel.register(this.selector, SelectionKey.OP_WRITE);
                 } else if (key.isReadable()) {
                     read(key);
-                }else if (key.isWritable()) {
-                    if(messageSendCount.get() > 3){
+                } else if (key.isWritable()) {
+                    if (messageSendCount.get() > 3) {
                         break;
                     }
                     write(key);

@@ -8,7 +8,7 @@ import indi.netty.yufr.chat.protocol.response.HeartBeatResponsePacket;
 
 @ChannelHandler.Sharable
 public class HeartBeatRequestHandler extends SimpleChannelInboundHandler<HeartBeatRequestPacket> {
-    public static final indi.netty.yufr.chat.server.handler.HeartBeatRequestHandler INSTANCE = new indi.netty.yufr.chat.server.handler.HeartBeatRequestHandler();
+    public static final HeartBeatRequestHandler INSTANCE = new HeartBeatRequestHandler();
 
     private HeartBeatRequestHandler() {
 

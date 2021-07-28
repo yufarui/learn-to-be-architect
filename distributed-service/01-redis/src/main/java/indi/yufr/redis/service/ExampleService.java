@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 public class ExampleService {
 
     // inject the template as ListOperations
-    @Resource(name="stringRedisTemplate")
+    @Resource(name = "stringRedisTemplate")
     private ListOperations<String, String> listOps;
 
     public void addLink(String key, String url) {

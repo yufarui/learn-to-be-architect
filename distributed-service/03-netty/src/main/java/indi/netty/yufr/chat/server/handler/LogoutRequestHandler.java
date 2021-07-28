@@ -12,7 +12,7 @@ import indi.netty.yufr.chat.util.SessionUtil;
  */
 @ChannelHandler.Sharable
 public class LogoutRequestHandler extends SimpleChannelInboundHandler<LogoutRequestPacket> {
-    public static final indi.netty.yufr.chat.server.handler.LogoutRequestHandler INSTANCE = new indi.netty.yufr.chat.server.handler.LogoutRequestHandler();
+    public static final LogoutRequestHandler INSTANCE = new LogoutRequestHandler();
 
     private LogoutRequestHandler() {
 

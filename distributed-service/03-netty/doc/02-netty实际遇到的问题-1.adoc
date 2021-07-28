@@ -1,0 +1,22 @@
+= 02-netty实际遇到的问题
+:doctype: book
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
+
+问题描述::
+通过FileInputStream每次从文件中读取10K,再放到ByteBuff中冲刷;为了控制流量,在每次写出前加了可写判断;
+大约只发了5MB,可写判断返回了fasle;无法发送数据;通过源码`ChannleOutBoundBuffer`中发现写出时,会判断
+高低水位,然后netty自主修改可写状态;导致无法写出;
+

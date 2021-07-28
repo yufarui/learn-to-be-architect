@@ -10,7 +10,7 @@ import indi.netty.yufr.chat.util.SessionUtil;
 
 @ChannelHandler.Sharable
 public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
-    public static final indi.netty.yufr.chat.server.handler.JoinGroupRequestHandler INSTANCE = new indi.netty.yufr.chat.server.handler.JoinGroupRequestHandler();
+    public static final JoinGroupRequestHandler INSTANCE = new JoinGroupRequestHandler();
 
     private JoinGroupRequestHandler() {
 

@@ -15,7 +15,7 @@ import java.util.List;
 
 @ChannelHandler.Sharable
 public class ListGroupMembersRequestHandler extends SimpleChannelInboundHandler<ListGroupMembersRequestPacket> {
-    public static final indi.netty.yufr.chat.server.handler.ListGroupMembersRequestHandler INSTANCE = new indi.netty.yufr.chat.server.handler.ListGroupMembersRequestHandler();
+    public static final ListGroupMembersRequestHandler INSTANCE = new ListGroupMembersRequestHandler();
 
     private ListGroupMembersRequestHandler() {
 
