@@ -7,6 +7,8 @@ import indi.netty.yufr.question.handler.IMIdleStateHandler;
 import indi.netty.yufr.question.handler.TaskResponseHandler;
 import indi.netty.yufr.question.protocol.TaskRequestPacket;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -14,6 +16,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.CharsetUtil;
 
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
@@ -74,15 +77,18 @@ public class QuestionNettyClient {
             while (channel.isActive()) {
                 TaskRequestPacket taskRequestPacket = new TaskRequestPacket();
 
-                byte[] info = new byte[1024];
+                byte[] info = new byte[1024 * 1024 * 1024];
                 taskRequestPacket.setInfo(info);
 
                 System.out.println("开始传输数据,数据长度为" + info.length);
 
                 channel.writeAndFlush(taskRequestPacket);
 
+                ByteBuf buf = Unpooled.copiedBuffer(info);
+                channel.writeAndFlush(buf);
+
                 ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
-                int random = threadLocalRandom.nextInt(1000, 20000);
+                int random = threadLocalRandom.nextInt(1000, 2000);
 
                 try {
                     Thread.sleep(random);

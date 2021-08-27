@@ -42,6 +42,14 @@ link:performance-analysis/04-java-concurrency/doc/04-jmm-内存模型.adoc[04-jm
 
 link:performance-analysis/04-java-concurrency/doc/05-synchronized.adoc[05-synchronized.adoc,window=_blank]
 
+== spring-源码解读
+
+- bean的注册与创建
+- spring-aop实现原理
+- spring-事物的原理
+- mybatis源码分析
+
+详细查看 spring-source下图片
 
 == 分布式系统
 
@@ -53,8 +61,8 @@ link:distributed-service/00-network/doc/io-multiplexing.adoc[io-multiplexing.ado
 
 spring-data-redis的使用::
 
-详细请看 distributed-service/01-redis
+- 详细请看 distributed-service/01-redis
 
 rocketmq-spring-boot-starter的使用::
 
-详细请看 distributed-service/02-rocketmq
+- 详细请看 distributed-service/02-rocketmq
