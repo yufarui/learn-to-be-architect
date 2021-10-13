@@ -4,7 +4,7 @@ spring:
 
 # 查阅rocketmq的spring-configuration-metadata.json
 rocketmq:
-  name-server: 1.117.46.141:9876
+  name-server: 10.253.2.56:9876
   producer:
     group: yufr-producer
     # 由于机器性能差,超时时间需要放大

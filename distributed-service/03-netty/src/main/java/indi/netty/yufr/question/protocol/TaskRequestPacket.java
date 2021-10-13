@@ -21,4 +21,5 @@ public class TaskRequestPacket extends Packet {
     public Byte getCommand() {
         return Command.TASK_REQUEST;
     }
+
 }

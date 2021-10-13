@@ -1,0 +1,264 @@
+= mysql-锁相关问题
+:doctype: book
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+
+==
+
+https://dev.mysql.com/doc/refman/8.0/en/information-schema-innodb-trx-table.html
+
+https://dev.mysql.com/doc/refman/8.0/en/innodb-information-schema-examples.html
+
+[source,sql]
+----
+desc information_schema.innodb_trx;
+
+SELECT * FROM INFORMATION_SCHEMA.INNODB_TRX;
+
+SELECT
+  r.trx_id waiting_trx_id,
+  r.trx_mysql_thread_id waiting_thread,
+  r.trx_query waiting_query,
+  b.trx_id blocking_trx_id,
+  b.trx_mysql_thread_id blocking_thread,
+  b.trx_query blocking_query
+FROM       performance_schema.data_lock_waits w
+INNER JOIN information_schema.innodb_trx b
+  ON b.trx_id = w.blocking_engine_transaction_id
+INNER JOIN information_schema.innodb_trx r
+  ON r.trx_id = w.requesting_engine_transaction_id;
+
+SELECT
+  waiting_trx_id,
+  waiting_pid,
+  waiting_query,
+  blocking_trx_id,
+  blocking_pid,
+  blocking_query
+FROM sys.innodb_lock_waits;
+
+SELECT * FROM information_schema.innodb_trx;
+SELECT * FROM performance_schema.data_locks;
+SELECT * FROM performance_schema.data_lock_waits;
+
+----
+
+[source,sql]
+----
+drop table if exists customer;
+CREATE TABLE customer (
+  id bigint NOT NULL AUTO_INCREMENT,
+  a int,
+  b char(20),
+  index idx_a(a),
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+----
+
+https://dev.mysql.com/doc/refman/8.0/en/innodb-autocommit-commit-rollback.html
+
+[source,sql]
+----
+SET GLOBAL TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+
+show variables like 'autocommit';
+
+START TRANSACTION;
+
+INSERT INTO customer(a, b) VALUES (10, 'Heikki');
+
+COMMIT;
+
+-- Do another transaction with autocommit turned off.
+SET autocommit=0;
+
+INSERT INTO customer(a, b) VALUES (15, 'John');
+
+INSERT INTO customer(a, b) VALUES (20, 'Paul');
+
+DELETE FROM customer WHERE b = 'Heikki';
+
+ROLLBACK;
+
+SELECT * FROM customer;
+----
+
+https://dev.mysql.com/doc/refman/8.0/en/innodb-enabling-monitors.html
+
+[source,sql]
+----
+SET GLOBAL innodb_status_output=ON;
+SET GLOBAL innodb_status_output_locks=ON;
+
+SHOW ENGINE INNODB STATUS;
+
+update customer set b = 'john' where id = 1;
+
+-- If you are using the mysql interactive client,
+-- the output is more readable if you replace the usual semicolon statement terminator with \G
+SHOW ENGINE INNODB STATUS;
+commit;
+----
+
+[source,sql]
+----
+
+-- 会话1
+select * from customer where id = 1 for update;
+
+mysql> SELECT * FROM INFORMATION_SCHEMA.INNODB_TRX\G
+*************************** 1. row ***************************
+                    trx_id: 153464
+                 trx_state: RUNNING
+               trx_started: 2021-09-17 14:05:32
+     trx_requested_lock_id: NULL
+          trx_wait_started: NULL
+                trx_weight: 2
+       trx_mysql_thread_id: 33
+                 trx_query: SELECT * FROM INFORMATION_SCHEMA.INNODB_TRX
+       trx_operation_state: NULL
+         trx_tables_in_use: 0
+         trx_tables_locked: 1
+          trx_lock_structs: 2
+     trx_lock_memory_bytes: 1136
+           trx_rows_locked: 1
+         trx_rows_modified: 0
+   trx_concurrency_tickets: 0
+       trx_isolation_level: REPEATABLE READ
+         trx_unique_checks: 1
+    trx_foreign_key_checks: 1
+trx_last_foreign_key_error: NULL
+ trx_adaptive_hash_latched: 0
+ trx_adaptive_hash_timeout: 0
+          trx_is_read_only: 0
+trx_autocommit_non_locking: 0
+1 row in set (0.00 sec)
+
+-- 新开会话2,再次执行sql
+-- 务必保证会话1还未commit
+
+select * from customer where id = 1 for update;
+
+-- 查看锁等待状态,会发现有1行数据被锁住;
+
+mysql> select * FROM sys.innodb_lock_waits \G
+*************************** 1. row ***************************
+                wait_started: 2021-09-17 14:10:24
+                    wait_age: 00:00:28
+               wait_age_secs: 28
+                locked_table: `yu_test`.`customer`
+         locked_table_schema: yu_test
+           locked_table_name: customer
+      locked_table_partition: NULL
+   locked_table_subpartition: NULL
+                locked_index: PRIMARY
+                 locked_type: RECORD
+              waiting_trx_id: 153466
+         waiting_trx_started: 2021-09-17 14:10:24
+             waiting_trx_age: 00:00:28
+     waiting_trx_rows_locked: 1
+   waiting_trx_rows_modified: 0
+                 waiting_pid: 34
+               waiting_query: select * from customer where id = 1 for update
+             waiting_lock_id: 1857798750448:272:4:2:1857764458712
+           waiting_lock_mode: X,REC_NOT_GAP
+             blocking_trx_id: 153465
+                blocking_pid: 33
+              blocking_query: select * FROM sys.innodb_lock_waits
+            blocking_lock_id: 1857798749600:272:4:2:1857764453736
+          blocking_lock_mode: X,REC_NOT_GAP
+        blocking_trx_started: 2021-09-17 14:09:10
+            blocking_trx_age: 00:01:42
+    blocking_trx_rows_locked: 1
+  blocking_trx_rows_modified: 0
+     sql_kill_blocking_query: KILL QUERY 33
+sql_kill_blocking_connection: KILL 33
+1 row in set (0.01 sec)
+----
+
+== 死锁等待问题
+
+参考文章::
+https://www.jianshu.com/p/fb30f6b5dfc7
+
+便于测试数据的sql
+[source,sql]
+----
+delete from customer;
+
+start transaction;
+INSERT INTO customer VALUES (1, 101, 'xx_101');
+INSERT INTO customer VALUES (2, 102, 'xx_102');
+INSERT INTO customer VALUES (3, 103, 'xx_103');
+
+
+INSERT INTO customer VALUES (7, 107, 'xx_107');
+INSERT INTO customer VALUES (8, 108, 'xx_108');
+INSERT INTO customer VALUES (9, 109, 'xx_109');
+
+INSERT INTO customer VALUES (100, 10100, 'xx_10100');
+commit;
+----
+
+=== 共享锁 与 排他(独占)锁
+
+=== gap锁
+
+[source,sql]
+----
+
+-- 会话1
+delete from customer where id = 5;
+
+#删除不存在的数据,使用gap锁(lock_mode X locks gap)
+#gap锁范围 4-6
+SHOW ENGINE INNODB STATUS\G
+
+TABLE LOCK table `yu_test`. `customer` trx id 153511 lock mode IX
+RECORD LOCKS space id 272 page no 4 n bits 80 index PRIMARY of table `yu_test`. `customer` trx id 153511 lock_mode X locks gap before rec
+Record lock, heap no 7 PHYSICAL RECORD: n_fields 5; compact format;
+
+-- 会话2
+-- id=4当前处于gap锁中,无法插入数据,处于等待状态
+INSERT INTO customer VALUES (4, 104, 'xx_104');
+----
+
+[source,sql]
+----
+-- 会话1
+delete from customer where id = 50;
+
+-- 会话2
+-- id=50当前处于gap锁中,id=25,75都无法插入数据,处于等待状态
+INSERT INTO customer VALUES (25, 1, 'xx_1');
+
+INSERT INTO customer VALUES (75, 1, 'xx_1');
+----
+
+innodb锁::
+https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html
+需要准确的翻译
+
+对应的翻译-推荐阅读::
+https://www.cnblogs.com/vivotech/p/vivotech.html
+
+意向锁的翻译::
+http://www.dreamwu.com/post-5794.html
+
+索引类型::
+https://dev.mysql.com/doc/refman/8.0/en/innodb-index-types.html
+
+索引优化::
+https://dev.mysql.com/doc/refman/8.0/en/optimization-indexes.html

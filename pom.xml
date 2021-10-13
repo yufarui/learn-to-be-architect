@@ -23,6 +23,7 @@
         <module>performance-analysis</module>
         <module>biz-template</module>
         <module>distributed-service</module>
+        <module>database</module>
     </modules>
 
 </project>
