@@ -262,3 +262,14 @@ https://dev.mysql.com/doc/refman/8.0/en/innodb-index-types.html
 
 索引优化::
 https://dev.mysql.com/doc/refman/8.0/en/optimization-indexes.html
+
+[source,sql]
+----
+#查看进程列表,并关闭进程id
+SHOW PROCESSLIST;
+KILL ${id};
+----
+
+测试next-lock-key,临键锁;只有二级索引(非唯一索引);才有临键锁,唯一索引会被优化成record-lock;
+
+mvcc的快照读与当前读
