@@ -14,3 +14,9 @@
 
 pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
 
+== 画图工具的选择-draw.io
+
+- 使用draw.io;将 https://www.draw.io 绑定至github
+- 使用 https://picx.xpoet.cn/[picx插件网址]
+- 在github中设定自己的token,在picx官网中输入此token
+- picx会帮我们快速创建cdn缓存图片
