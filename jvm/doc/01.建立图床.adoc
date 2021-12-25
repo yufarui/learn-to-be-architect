@@ -1,0 +1,16 @@
+= 便捷的图床建立
+:doctype: book
+:encoding: utf-8
+:lang: zh-cn
+:toc: left
+:toc-title: 导航目录
+:toclevels: 4
+:sectnums:
+:sectanchors:
+
+:hardbreaks:
+:experimental:
+:icons: font
+
+pass:[<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">]
+

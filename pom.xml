@@ -24,6 +24,7 @@
         <module>biz-template</module>
         <module>distributed-service</module>
         <module>database</module>
+        <module>jvm</module>
     </modules>
 
 </project>
