@@ -92,7 +92,7 @@ image::image/01_memory_tlb.png[800,600]
 
 == 段页式内存管理
 
-image::image/01_memory_segment_page.png[1000,800]
+image::image/01_memory_segment_page.webp[1000,800]
 
 段页式内存管理实现的方式：
 
