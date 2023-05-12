@@ -25,6 +25,7 @@
         <module>distributed-service</module>
         <module>database</module>
         <module>jvm</module>
+        <module>middleware</module>
     </modules>
 
 </project>
