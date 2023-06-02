@@ -5,10 +5,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Pipeline;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class JedisSingleTest {
     public static final JedisPoolConfig JEDIS_POOL_CONFIG = new JedisPoolConfig();
@@ -20,12 +17,11 @@ public class JedisSingleTest {
     }
 
     public static void main(String[] args) {
-
         Jedis jedis = null;
         // 使用docker快速创建服务
         try (JedisPool jedisPool = new JedisPool(JEDIS_POOL_CONFIG, "127.0.0.1", 6379, 3000, null)) {
             jedis = jedisPool.getResource();
-            luaCommandTest(jedis);
+            stringCommandTest(jedis);
         } finally {
             if (jedis != null) {
                 jedis.close();
@@ -34,8 +30,14 @@ public class JedisSingleTest {
     }
 
     private static void stringCommandTest(Jedis jedis) {
-        System.out.println(jedis.set("name", "simple_jedis"));
+        // value sent to redis cannot be null
+         System.out.println(jedis.set("name", "null"));
         System.out.println(jedis.get("name"));
+
+
+        Map<String, String> map = new HashMap<>();
+        map.put("tt", "null");
+        System.out.println(jedis.hmset("name", map));
     }
 
     private static void pipelinedCommandTest(Jedis jedis) {
@@ -74,4 +76,6 @@ public class JedisSingleTest {
 
         System.out.println(jedis.get("simple_count"));
     }
+
+
 }
