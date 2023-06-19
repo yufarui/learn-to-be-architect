@@ -18,10 +18,10 @@ public class KafkaConsumer {
         ack.acknowledge();
     }
 
-/*    @KafkaListener(topics = "test", groupId = "test_group_1")
+    @KafkaListener(topics = "test", groupId = "test_group_1")
     public void listenGroup1(ConsumerRecord<String, String> record, Acknowledgment ack) {
         String value = record.value();
-        log.info("group_0接受到信息[{}]", value);
+        log.info("group_1接受到信息[{}]", value);
         ack.acknowledge();
-    }*/
+    }
 }
