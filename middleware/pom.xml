@@ -16,6 +16,7 @@
         <module>redis-jedis</module>
         <module>redis-lock</module>
         <module>zookeeper</module>
+        <module>kafka</module>
     </modules>
 
     <properties>
